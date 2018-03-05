@@ -7,18 +7,23 @@ import 'rxjs/add/operator/toPromise';
 import { Subscription } from "rxjs";
 import { FormControl } from '@angular/forms';
 import { YoutubeTask } from '../../shared/YoutubeTask';
+import { TransferModel } from '../../shared/TransferModel';
+import { TransferReklamaModel } from '../../shared/TransferReklamaModel';
+import { DataService } from '../../shared/services/DataService';
 
 @Component({
   moduleId: module.id,
   selector: 'app-seo-youtube',
   templateUrl: './seo-youtube.component.html',
-  styleUrls: ['./seo-youtube.component.scss']
+  styleUrls: ['./seo-youtube.component.scss'],
+  providers: [DataService]
 })
+
 export class SeoYoutubeComponent implements OnInit {
 
-  taskCtrl: FormControl; 
-
-  filteredYoutubeTasks: Observable<any[]>; // REMOVE
+  taskCtrl: FormControl;
+  filteredYoutubeTasks: Observable<any[]>;
+  
 // listYoutubeTasks: YoutubeTask[] = [];
   listYoutubeTasks: YoutubeTask[] = [ //REMOVE
     {      
@@ -59,22 +64,23 @@ export class SeoYoutubeComponent implements OnInit {
     }
   ];
 
-  constructor() {
+  constructor(private service: DataService) {
     this.taskCtrl = new FormControl();
-    // this.service.getListYoutubeTasksId().toPromise().then(result => {
-    //   this.listYoutubeTasks = result;
-    //   console.log('RESULT', result);
-    //   this.taskCtrl.valueChanges.subscribe(state => {
-    //     if (state != null) {
-    //       this.selectedTaskId = state;
-    //       this.getTaskModelById(this.selectedTaskId, this.listYoutubeTasks);
-    //     }
-    //   });
+    this.service.getListYoutubeTasksId().toPromise().then(result => {
+      console.log("check")
+      // this.listYoutubeTasks = result;
+      // console.log('RESULT', result);
+      // this.taskCtrl.valueChanges.subscribe(state => {
+      //   if (state != null) {
+      //     this.selectedTaskId = state;
+      //     this.getTaskModelById(this.selectedTaskId, this.listYoutubeTasks);
+      //   }
+      // });
 
       // this.filteredYoutubeTasks = this.taskCtrl.valueChanges
       //   .startWith(null)
       //   .map(taskId => taskId ? this.filterTasks(taskId) : this.listYoutubeTasks.slice());
-    // });
+    });
 
     this.filteredYoutubeTasks = this.taskCtrl.valueChanges
       .pipe(startWith(''),
@@ -104,4 +110,7 @@ export class SeoYoutubeComponent implements OnInit {
   onStateChange(event) {
     console.log('player state', event.data);
   }
+
+  apply() {}
+  start() {}
 }

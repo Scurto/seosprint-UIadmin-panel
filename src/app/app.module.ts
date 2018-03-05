@@ -21,7 +21,7 @@ export function createTranslateLoader(http: HttpClient) {
 @NgModule({
     imports: [        
         CommonModule,
-        BrowserModule,        
+        BrowserModule,               
         BrowserAnimationsModule,
         HttpClientModule,
         TranslateModule.forRoot({
