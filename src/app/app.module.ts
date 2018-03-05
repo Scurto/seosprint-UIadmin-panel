@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 
+
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
     // for development
@@ -18,9 +19,9 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 @NgModule({
-    imports: [
+    imports: [        
         CommonModule,
-        BrowserModule,
+        BrowserModule,        
         BrowserAnimationsModule,
         HttpClientModule,
         TranslateModule.forRoot({
@@ -30,10 +31,13 @@ export function createTranslateLoader(http: HttpClient) {
                 deps: [HttpClient]
             }
         }),
-        AppRoutingModule
+
+        AppRoutingModule,
+        
     ],
     declarations: [AppComponent],
     providers: [AuthGuard],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule {}

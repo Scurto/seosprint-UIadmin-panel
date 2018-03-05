@@ -1,0 +1,62 @@
+body {
+    margin: 0;
+  }
+  
+  .upPanel {
+    height: 270px;
+    display: flex;
+  }
+  
+  .downPanel {
+    height: 70vh;
+    display: flex;
+  }
+  
+  .left {
+    width: 69.5%;
+    height: 100%;
+    display: inline-flex;
+    //background: black;
+  }
+  
+  .right {
+    //background-color: white;
+    height: 100%;
+    width: 30%;
+    display: inline-flex;
+  }
+  
+  .resultLeftArea {
+    width: 50%;
+    background: rgba(128, 128, 128, 0.5);
+    border: 1px solid white;
+    .resultLeftAreaParagraph {
+      margin: 10px;
+      font-size: 12px;
+    }
+  }
+  
+  .resultRightArea {
+    width: 50%;
+    background: rgba(128, 128, 128, 0.5);
+    border: 1px solid white;
+    .resultRightAreaParagraph {
+      margin: 10px;
+      font-size: 12px;
+    }
+  }
+  
+  .fieldsArea85Width {
+    width: 85px;
+  }
+  
+  .fieldsArea100Width {
+    width: 100px;
+  }
+  
+  .fieldsArea120Width {
+    width: 120px;
+  }
+  .toggleArea {
+    padding-left: 50px;
+  }
