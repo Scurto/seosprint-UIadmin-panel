@@ -4,6 +4,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import {Observable} from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { YoutubeTask } from "../YoutubeTask";
+import { TransferModel } from "../TransferModel";
 
 
 /**
@@ -32,15 +34,14 @@ export class DataService {
     ).map(res => res);
   }
 
-  getListYoutubeTasksId() {
+  getListYoutubeTasksId(): Observable<YoutubeTask[]> {
     var json = JSON.stringify({});
 
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    // return  this._http.post(this.HTTPS_URL + "/youtube/listAllTaskModel",
+    //   json
+    // ).map(res => res);
 
-    return  this._http.post(this.HTTPS_URL + "/youtube/listAllTaskModel",
-      json
-    ).map(res => res);
+    return  this._http.post<YoutubeTask[]>(this.HTTPS_URL + "/youtube/listAllTaskModel", json)
   }
 
   getLastUsedReklama(modelTaskId: string) {
@@ -69,7 +70,7 @@ export class DataService {
     ).map(res => res);
   }
 
-  youtubeCheck(chanelId: string) {
+  youtubeCheck(chanelId: string): Observable<YouTubeVideoList> {
 
     let params: URLSearchParams = new URLSearchParams();
     params.set('part', "snippet");
@@ -78,7 +79,7 @@ export class DataService {
     params.set('order', 'date');
     params.set('key', 'AIzaSyD4uG1sdLHryZMwVDnUQBXXIdvGhAtGquA');
 
-    return  this._http.get("https://www.googleapis.com/youtube/v3/search"
+    return  this._http.get<YouTubeVideoList>("https://www.googleapis.com/youtube/v3/search"
     ).map(res => res);
 
   }
@@ -113,7 +114,7 @@ export class DataService {
     ).map(res => res);
   }
 
-  apply(modelTaskId: string, countReklama: string, countMove: string, countVideo: string) {
+  apply(modelTaskId: string, countReklama: string, countMove: string, countVideo: string): Observable<TransferModel> {
     let json = JSON.stringify({
       taskId: modelTaskId,
       countOfReklama: countReklama,
@@ -124,13 +125,13 @@ export class DataService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    return this._http.post(this.HTTPS_URL + "/youtube/reklamaListForShow",
+    return this._http.post<TransferModel>(this.HTTPS_URL + "/youtube/reklamaListForShow",
       json
 
     ).map(res => res);
   }
 
-  applyPromise(modelTaskId: string, countReklama: string, countMove: string, countVideo: string) {
+  applyPromise(modelTaskId: string, countReklama: string, countMove: string, countVideo: string): Observable<TransferModel> {
     let json = JSON.stringify({
       taskId: modelTaskId,
       countOfReklama: countReklama,
@@ -138,15 +139,13 @@ export class DataService {
       countOfVideo: countVideo
     });
 
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    // let headers = new Headers();
+    // headers.append('Content-Type', 'application/json');
 
-    return this._http.post(this.HTTPS_URL + "/youtube/reklamaListForShow",
-      json
-    );
+    return this._http.post<TransferModel>(this.HTTPS_URL + "/youtube/reklamaListForShow", json); //maybe dont work !!!
   }
 
-  applyPromiseWithYoutubeList(modelTaskId: string, countReklama: string, countMove: string, countVideo: string, listVideo: string[]) {
+  applyPromiseWithYoutubeList(modelTaskId: string, countReklama: string, countMove: string, countVideo: string, listVideo: string[]): Observable<TransferModel> {
     let json = JSON.stringify({
       taskId: modelTaskId,
       countOfReklama: countReklama,
@@ -155,12 +154,10 @@ export class DataService {
       listOfVideo: listVideo
     });
 
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    // let headers = new Headers();
+    // headers.append('Content-Type', 'application/json');
 
-    return this._http.post(this.HTTPS_URL + "/youtube/getMixedList",
-      json
-    );
+    return this._http.post<TransferModel>(this.HTTPS_URL + "/youtube/getMixedList", json); // maybe dont work !!!
   }
 
   updateTask(modelTaskId: string, modelLastReklama: string) {

@@ -1,39 +1,73 @@
 <div class="row">
-    <div class="col-md-9">
-
-        <div class="row taskRow">
-            <form class="example-form">
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Task Id" aria-label="Task Id" [matAutocomplete]="auto" [formControl]="taskCtrl">
-                    <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let task of filteredYoutubeTasks | async" [value]="task.taskId">
-                            <span>{{ task.taskId }}</span>
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </form>
-            <button mat-raised-button color="primary" (click)="apply()">Apply</button>
-            <button mat-raised-button color="accent" disabled="{{!isReadyToStart}}" (click)="start()">Start</button>
+    <div class="col-md-7">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row taskRow">
+                    <form class="example-form">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Task Id" aria-label="Task Id" [matAutocomplete]="auto" [formControl]="taskCtrl">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let task of filteredYoutubeTasks | async" [value]="task.taskId">
+                                    <span>{{ task.taskId }}</span>
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </form>
+                    <button mat-raised-button color="primary" (click)="apply()">Apply</button>
+                    <button mat-raised-button color="accent" disabled="{{!isReadyToStart}}" (click)="start()">Start</button>
+                </div>
+            </div>
         </div>
 
-        <div class="row taskRow">
-            <mat-input-container class="fieldsArea120Width">
-                <input matInput placeholder="Count Video" value="" [ngModel]="countVideo">
-            </mat-input-container>
-            <mat-input-container class="fieldsArea120Width">
-                <input matInput placeholder="Count Reklama" value="" [ngModel]="countReklama">
-            </mat-input-container>
-            <mat-input-container class="fieldsArea120Width">
-                <input matInput placeholder="Count Move" value="" [ngModel]="countMove">
-            </mat-input-container>
-            <mat-input-container class="fieldsArea100Width">
-                <input matInput placeholder="Video freeze" value="" [ngModel]="videoFreeze">
-            </mat-input-container>
-            <mat-input-container class="fieldsArea120Width">
-                <input matInput placeholder="Reklama freeze" value="" [ngModel]="reklamaFreeze">
-            </mat-input-container>
+        <div class="row">
+            <div class="col-md-12">
+                <mat-input-container class="fieldsArea120Width">
+                    <input matInput placeholder="Count Video" value="" [ngModel]="countVideo">
+                </mat-input-container>
+                <mat-input-container class="fieldsArea120Width">
+                    <input matInput placeholder="Count Reklama" value="" [ngModel]="countReklama">
+                </mat-input-container>
+                <mat-input-container class="fieldsArea120Width">
+                    <input matInput placeholder="Count Move" value="" [ngModel]="countMove">
+                </mat-input-container>
+                <mat-input-container class="fieldsArea100Width">
+                    <input matInput placeholder="Video freeze" value="" [ngModel]="videoFreeze">
+                </mat-input-container>
+                <mat-input-container class="fieldsArea120Width">
+                    <input matInput placeholder="Reklama freeze" value="" [ngModel]="reklamaFreeze">
+                </mat-input-container>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="isOneTimeTaskFlagId" [ngbCollapse]="!isOneTimeTask">
+                    <mat-input-container style="width: 595px">
+                        <input matInput placeholder="One Time Chanel Link" value="" [ngModel]="oneTimeChanelLink">
+                    </mat-input-container>
+                </div>
+            </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-12">
+                <button mat-raised-button color="primary" (click)="clear()">Clear</button>
+                <button mat-raised-button color="primary" (click)="testJms()">Test JMS</button>
+                <button mat-raised-button color="warn" (click)="openGclidPage()">Open GCLID page</button>
+                <button mat-raised-button (click)="doChangeVideoSource($event)">{{toggleVideoText}}</button>
+                <!-- <mat-button-toggle (click)="doChangeVideoSource($event)" [checked]="toggleVideoSource">{{toggleVideoText}}
+                </mat-button-toggle> -->
+                <!--<button md-raised-button (click)="startMusic()">Start music</button>-->
+                <button mat-raised-button (click)="stopMusic()">Stop music</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">        
+        <mat-slide-toggle class="example-margin" [checked]="autoCloseAdvertiseFlag" (change)="autoCloseAdvertise($event)">
+            Auto close advertise
+        </mat-slide-toggle>
+        <mat-slide-toggle class="example-margin" (change)="isOneTimeTask = !isOneTimeTask" [attr.aria-expanded]="isOneTimeTask" aria-controls="isOneTimeTaskFlagId">
+            One Time Task
+        </mat-slide-toggle>        
     </div>
     <div class="col-md-3">
         <div>
@@ -62,6 +96,23 @@
                 <h4 class="card-title">Dark card title</h4>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="downPanel">
+    <div class="left">
+        <div class="resultLeftArea">
+            <p [innerHTML]="startHtmlString" class="resultLeftAreaParagraph"></p>
+        </div>
+        <div class="resultRightArea">
+            <p #finishHtml [innerHTML]="finishHtmlString" class="resultRightAreaParagraph"></p>
+        </div>
+    </div>
+    <div class="right">
+        <div class="gClidContainer">
+            <p #descriptioHtml [innerHTML]="descriptionContainerString" class="resultRightAreaParagraph"></p>
         </div>
     </div>
 </div>

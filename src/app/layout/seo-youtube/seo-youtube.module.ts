@@ -39,6 +39,7 @@ import {
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {CdkTableModule} from '@angular/cdk/table';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [CommonModule, SeoYoutubeRoutingModule, YoutubePlayerModule,
@@ -76,7 +77,10 @@ import {CdkTableModule} from '@angular/cdk/table';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    ReactiveFormsModule,],
+    ReactiveFormsModule,
+    NgbModule.forRoot(),
+  
+    ],
     declarations: [SeoYoutubeComponent],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
