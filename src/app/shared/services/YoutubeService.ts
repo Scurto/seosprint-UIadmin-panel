@@ -2,10 +2,11 @@ import {Headers, URLSearchParams} from "@angular/http";
 import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import {Observable} from "rxjs";
+import {Observable, BehaviorSubject} from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { YoutubeTask } from "../YoutubeTask";
 import { TransferModel } from "../TransferModel";
+import { SharedService } from "./SharedService";
 
 
 /**
@@ -13,10 +14,10 @@ import { TransferModel } from "../TransferModel";
  */
 
 @Injectable()
-export class DataService {
+export class YoutubeService {
 
 
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient, private sharedService: SharedService) {}
 
   HTTPS_URL: string = 'https://localhost:8443';
 //   HTTPS_URL: string = 'http://localhost:8080';
@@ -36,12 +37,13 @@ export class DataService {
 
   getListYoutubeTasksId(): Observable<YoutubeTask[]> {
     var json = JSON.stringify({});
-
-    // return  this._http.post(this.HTTPS_URL + "/youtube/listAllTaskModel",
-    //   json
-    // ).map(res => res);
-
-    return  this._http.post<YoutubeTask[]>(this.HTTPS_URL + "/youtube/listAllTaskModel", json)
+    console.log(this.sharedService.getMockDataFlag());
+    if (!this.sharedService.getMockDataFlag()) {
+      return  this._http.post<YoutubeTask[]>(this.HTTPS_URL + "/youtube/listAllTaskModel", json)
+    } else {
+      return this.myListYoutubeTasks.asObservable();
+    }
+    
   }
 
   getLastUsedReklama(modelTaskId: string) {
@@ -196,4 +198,45 @@ export class DataService {
 //     const response = await this._http.get(this.currentPriceUrl).toPromise();
 //     return response.json().bpi[currency].rate;
 //   }
+
+myListYoutubeTasks = new BehaviorSubject<YoutubeTask[]>([ //REMOVE
+  {      
+    taskId: '1',
+    countVideo: '0',
+    countReklama: '0',
+    countMove: '0',
+    reklamaFreeze: 45,
+    videoFreeze: 45,
+    strategy: ''
+  },
+  {
+    taskId: '2',
+    countVideo: '0',
+    countReklama: '0',
+    countMove: '0',
+    reklamaFreeze: 45,
+    videoFreeze: 45,
+    strategy: ''
+  },
+  {
+    taskId: '3',
+    countVideo: '0',
+    countReklama: '0',
+    countMove: '0',
+    reklamaFreeze: 45,
+    videoFreeze: 45,
+    strategy: ''
+  },
+  {
+    taskId: '4',
+    countVideo: '0',
+    countReklama: '0',
+    countMove: '0',
+    reklamaFreeze: 45,
+    videoFreeze: 45,
+    strategy: ''
+  }
+]);
+
+
 }

@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { YoutubeService } from '../../../shared/services/YoutubeService';
+import { SharedService } from '../../../shared/services/SharedService';
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
-    styleUrls: ['./header.component.scss']
+    styleUrls: ['./header.component.scss'],
+    providers: [YoutubeService]
 })
 export class HeaderComponent implements OnInit {
     pushRightClass: string = 'push-right';
+    mockData: boolean = false;
 
-    constructor(private translate: TranslateService, public router: Router) {
+    constructor(private translate: TranslateService, public router: Router, private sharedService: SharedService) {
 
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
         this.translate.setDefaultLang('en');
@@ -51,5 +55,10 @@ export class HeaderComponent implements OnInit {
 
     changeLang(language: string) {
         this.translate.use(language);
+    }
+
+    onMockDataChange(event) {
+        console.log('onMockDataChange', event)
+        this.sharedService.setMockDataFlag(event.checked)
     }
 }

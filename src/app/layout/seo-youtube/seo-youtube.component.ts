@@ -1,27 +1,29 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
-import {startWith} from 'rxjs/operators/startWith';
-import {map} from 'rxjs/operators/map';
+import { startWith } from 'rxjs/operators/startWith';
+import { map } from 'rxjs/operators/map';
 import 'rxjs/add/operator/toPromise';
 import { Subscription } from "rxjs";
 import { FormControl } from '@angular/forms';
 import { YoutubeTask } from '../../shared/YoutubeTask';
 import { TransferModel } from '../../shared/TransferModel';
 import { TransferReklamaModel } from '../../shared/TransferReklamaModel';
-import { DataService } from '../../shared/services/DataService';
+import { YoutubeService } from '../../shared/services/YoutubeService';
+import { HttpErrorResponse } from '@angular/common/http';
+import { SharedService } from '../../shared/services/SharedService';
 
 @Component({
   moduleId: module.id,
   selector: 'app-seo-youtube',
   templateUrl: './seo-youtube.component.html',
   styleUrls: ['./seo-youtube.component.scss'],
-  providers: [DataService]
+  providers: [YoutubeService]
 })
 
 export class SeoYoutubeComponent implements OnInit {
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   taskCtrl: FormControl;
   filteredYoutubeTasks: Observable<YoutubeTask[]>;
@@ -62,8 +64,7 @@ export class SeoYoutubeComponent implements OnInit {
   ];
 
 
-  constructor(private service: DataService) {
-
+  constructor(private service: YoutubeService, private sharedService: SharedService) {
     this.taskCtrl = new FormControl();
 
     this.service.getListYoutubeTasksId().toPromise().then(result => {
@@ -78,13 +79,41 @@ export class SeoYoutubeComponent implements OnInit {
 
       this.filteredYoutubeTasks = this.taskCtrl.valueChanges
         .startWith(null)
-        .map(taskId => taskId ? this.filterTasks(taskId) : this.listYoutubeTasks.slice());
+        .map(taskId => {
+          return taskId ? this.filterTasks(taskId) : this.listYoutubeTasks.slice()
+        });
+    }).catch((err: HttpErrorResponse) => {
+      if (err.name == 'HttpErrorResponse') {
+        console.log('constructor -> getListYoutubeTasksId', err)
+      }
     });
+
+  }
+
+  onTaskIdClick() {
+    this.service.getListYoutubeTasksId().subscribe(
+      result => {
+        this.listYoutubeTasks = result;
+        console.log('RESULT', result);
+        this.taskCtrl.valueChanges.subscribe(state => {
+          if (state != null) {
+            this.selectedTaskId = state;
+            this.getTaskModelById(this.selectedTaskId, this.listYoutubeTasks);
+          }
+        });
+        this.filteredYoutubeTasks = this.taskCtrl.valueChanges
+          .map(taskId => taskId ? this.filterTasks(taskId) : this.listYoutubeTasks.slice());
+      },
+      error => {
+        console.log('error', error)
+        this.listYoutubeTasks = null;
+      }
+    );
   }
 
   filterTasks(taskId: string) {
     return this.listYoutubeTasks.filter(task =>
-    task.taskId.toLowerCase().indexOf(taskId.toLowerCase()) === 0);
+      task.taskId.toLowerCase().indexOf(taskId.toLowerCase()) === 0);
   }
 
   clear() {
@@ -99,6 +128,7 @@ export class SeoYoutubeComponent implements OnInit {
     this.finishHtmlString = '';
     this.isReadyToStart = false;
     this.descriptionContainerString = '';
+    this.selectedTaskId = null;
   }
 
   apply() {
@@ -158,12 +188,12 @@ export class SeoYoutubeComponent implements OnInit {
       randomPositionTextEndStrategy(this.service, this.selectedTaskId, this.prepearedModel, this.finishHtml, this.player, this.reklamaFreeze, this.videoFreeze, this.descriptioHtml, this.audio);
     }
 
-    async function randomPositionTextEndStrategy(service: DataService, selectedTaskId, prepearedModel, finishHtml, player, reklamaFreeze, videoFreeze, descriptioHtml, audio) {
+    async function randomPositionTextEndStrategy(service: YoutubeService, selectedTaskId, prepearedModel, finishHtml, player, reklamaFreeze, videoFreeze, descriptioHtml, audio) {
       if (service == null ||
         selectedTaskId == null ||
         prepearedModel == null ||
-        finishHtml == null||
-        descriptioHtml == null||
+        finishHtml == null ||
+        descriptioHtml == null ||
         player == null ||
         audio == null ||
         reklamaFreeze == null || videoFreeze == null) {
@@ -222,22 +252,22 @@ export class SeoYoutubeComponent implements OnInit {
       await delay(finishDelay);
       service.updateTask(selectedTaskId, prepearedModel.transferReklamaKeys)
         .toPromise().then(result => {
-        console.log('task completed');
-      });
+          console.log('task completed');
+        });
 
-      descriptionText = descriptionText + '<br>' + '===FINISH AT===' + '<br>' +  new Date().toString()+ '<br>';
+      descriptionText = descriptionText + '<br>' + '===FINISH AT===' + '<br>' + new Date().toString() + '<br>';
       descriptioHtml.nativeElement.innerHTML = descriptionText;
       audio.play();
     }
 
 
 
-    async function classicStrategy(service: DataService, selectedTaskId, prepearedModel, finishHtml, player, reklamaFreeze, videoFreeze, descriptioHtml, audio) {
+    async function classicStrategy(service: YoutubeService, selectedTaskId, prepearedModel, finishHtml, player, reklamaFreeze, videoFreeze, descriptioHtml, audio) {
       if (service == null ||
         selectedTaskId == null ||
         prepearedModel == null ||
-        finishHtml == null||
-        descriptioHtml == null||
+        finishHtml == null ||
+        descriptioHtml == null ||
         player == null ||
         audio == null ||
         reklamaFreeze == null || videoFreeze == null) {
@@ -296,10 +326,10 @@ export class SeoYoutubeComponent implements OnInit {
       await delay(finishDelay);
       service.updateTask(selectedTaskId, prepearedModel.transferReklamaKeys)
         .toPromise().then(result => {
-        console.log('task completed');
-      });
+          console.log('task completed');
+        });
 
-      descriptionText = descriptionText + '<br>' + '===FINISH AT===' + '<br>' +  new Date().toString()+ '<br>';
+      descriptionText = descriptionText + '<br>' + '===FINISH AT===' + '<br>' + new Date().toString() + '<br>';
       descriptioHtml.nativeElement.innerHTML = descriptionText;
       audio.play();
     }
@@ -310,13 +340,13 @@ export class SeoYoutubeComponent implements OnInit {
     this.service.apply(this.selectedTaskId,
       this.countReklama,
       this.countMove, this.countVideo).subscribe(
-      data => {
-        this.prepearedModel = data;
-        console.log("http://localhost:8080/youtube/reklamaListForShow -> ", data);
-      },
-      // error => alert(error),
-      () => console.log("request completed")
-    );
+        data => {
+          this.prepearedModel = data;
+          console.log("http://localhost:8080/youtube/reklamaListForShow -> ", data);
+        },
+        // error => alert(error),
+        () => console.log("request completed")
+      );
   }
 
   private prepareTextForShow() {
@@ -333,7 +363,7 @@ export class SeoYoutubeComponent implements OnInit {
       myText = myText + this.prepearedModel.transferReklamaModel[i].gclidLine + '<br>';
 
       for (let rekText of this.prepearedModel.transferReklamaModel[i].textLine) {
-          myText = myText + rekText + '<br>';
+        myText = myText + rekText + '<br>';
       }
 
       myText = myText + '<br>';
@@ -420,7 +450,7 @@ export class SeoYoutubeComponent implements OnInit {
 
   autoCloseAdvertise(event) {
     console.log('event', event.checked);
-    let autoClose: string = event.checked ? "": "no";
+    let autoClose: string = event.checked ? "" : "no";
     this.service.autoCloseAdvertise(autoClose).subscribe(
       data => {
         console.log("autoCloseAdvertise -> ", data);
@@ -429,6 +459,8 @@ export class SeoYoutubeComponent implements OnInit {
       () => console.log("request completed")
     );
   }
+
+
 
 }
 

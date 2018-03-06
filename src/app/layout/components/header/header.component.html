@@ -26,40 +26,46 @@
                     RTL/LTR
                 </a>
             </li> &nbsp; -->
+
+            <mat-slide-toggle style="height: 40px" [checked]="mockData" (change)="onMockDataChange($event)" labelPosition="before">
+                <span class="topNavTextColor">MockData</span>
+            </mat-slide-toggle>
+
+
             <li class="nav-item dropdown" ngbDropdown>
                 <a class="nav-link" href="javascript:void(0)" ngbDropdownToggle>
-                    <i class="fa fa-envelope"></i> <b class="caret"></b><span class="sr-only">(current)</span>
+                    <i class="fa fa-envelope"></i>
+                    <b class="caret"></b>
+                    <span class="sr-only">(current)</span>
                 </a>
                 <ul class="dropdown-menu-right messages" ngbDropdownMenu>
                     <li class="media">
-                        <img class="d-flex align-self-center mr-3"
-                            src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg" alt="Generic placeholder image"
-                        >
+                        <img class="d-flex align-self-center mr-3" src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg"
+                            alt="Generic placeholder image">
                         <div class="media-body">
                             <h5 class="mt-0 mb-1">John Smith</h5>
-                            <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                            <p class="small text-muted">
+                                <i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
                             <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
                         </div>
                     </li>
                     <li class="media">
-                        <img class="d-flex align-self-center mr-3"
-                            src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg"
-                            alt="Generic placeholder image"
-                        >
+                        <img class="d-flex align-self-center mr-3" src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg"
+                            alt="Generic placeholder image">
                         <div class="media-body">
                             <h5 class="mt-0 mb-1">John Smith</h5>
-                            <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                            <p class="small text-muted">
+                                <i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
                             <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
                         </div>
                     </li>
                     <li class="media">
-                        <img class="d-flex align-self-center mr-3"
-                            src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg"
-                            alt="Generic placeholder image"
-                        />
+                        <img class="d-flex align-self-center mr-3" src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg"
+                            alt="Generic placeholder image" />
                         <div class="media-body">
                             <h5 class="mt-0 mb-1">John Smith</h5>
-                            <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                            <p class="small text-muted">
+                                <i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
                             <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
                         </div>
                     </li>
@@ -67,17 +73,22 @@
             </li>
             <li class="nav-item dropdown" ngbDropdown>
                 <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
-                    <i class="fa fa-bell"></i> <b class="caret"></b><span class="sr-only">(current)</span>
+                    <i class="fa fa-bell"></i>
+                    <b class="caret"></b>
+                    <span class="sr-only">(current)</span>
                 </a>
                 <div class="dropdown-menu-right" ngbDropdownMenu>
                     <a href="javascript:void(0)" class="dropdown-item">
-                        {{ 'Pending Task' | translate }} <span class="badge badge-info">6</span>
+                        {{ 'Pending Task' | translate }}
+                        <span class="badge badge-info">6</span>
                     </a>
                     <a href="javascript:void(0)" class="dropdown-item">
-                        {{ 'In queue' | translate }} <span class="badge badge-info"> 13</span>
+                        {{ 'In queue' | translate }}
+                        <span class="badge badge-info"> 13</span>
                     </a>
                     <a href="javascript:void(0)" class="dropdown-item">
-                        {{ 'Mail' | translate }} <span class="badge badge-info"> 45</span>
+                        {{ 'Mail' | translate }}
+                        <span class="badge badge-info"> 45</span>
                     </a>
                     <li class="dropdown-divider"></li>
                     <a href="javascript:void(0)" class="dropdown-item">
@@ -85,40 +96,10 @@
                     </a>
                 </div>
             </li>
-            <!-- <li class="nav-item dropdown" ngbDropdown>
-                <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
-                    <i class="fa fa-language"></i> {{ 'Language' | translate }} <b class="caret"></b>
-                </a>
-                <div class="dropdown-menu-right" ngbDropdownMenu>
-                    <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('en')">
-                        {{ 'English' | translate }}
-                    </a>
-                    <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('fr')">
-                        {{ 'French' | translate }}
-                    </a>
-                    <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('ur')">
-                        {{ 'Urdu' | translate }}
-                    </a>
-                    <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('es')">
-                        {{ 'Spanish' | translate }}
-                    </a>
-                    <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('it')">
-                        {{ 'Italian' | translate }}
-                    </a>
-                    <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('fa')">
-                        {{ 'Farsi' | translate }}
-                    </a>
-                    <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('de')">
-                        {{ 'German' | translate }}
-                    </a>
-                    <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('zh-CHS')">
-                        {{ 'Simplified Chinese' | translate }}
-                    </a>
-                </div>
-            </li> -->
             <li class="nav-item dropdown" ngbDropdown>
                 <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
-                    <i class="fa fa-user"></i> SCURTO <b class="caret"></b>
+                    <i class="fa fa-user"></i> SCURTO
+                    <b class="caret"></b>
                 </a>
                 <div class="dropdown-menu-right" ngbDropdownMenu>
                     <a class="dropdown-item" href="javascript:void(0)">

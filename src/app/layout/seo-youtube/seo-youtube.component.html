@@ -5,7 +5,7 @@
                 <div class="row taskRow">
                     <form class="example-form">
                         <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Task Id" aria-label="Task Id" [matAutocomplete]="auto" [formControl]="taskCtrl">
+                            <input matInput placeholder="Task Id" aria-label="Task Id" [matAutocomplete]="auto" [formControl]="taskCtrl" (click)="onTaskIdClick()">
                             <mat-autocomplete #auto="matAutocomplete">
                                 <mat-option *ngFor="let task of filteredYoutubeTasks | async" [value]="task.taskId">
                                     <span>{{ task.taskId }}</span>
