@@ -55,6 +55,7 @@ export class SeoYoutubeComponent implements OnInit {
   private ytEvent;
   private audio;
   public isOneTimeTask = false;
+  oneTimeChanelLink: string;
 
   @ViewChild('finishHtml') finishHtml;
   @ViewChild('descriptioHtml') descriptioHtml;
@@ -78,13 +79,17 @@ export class SeoYoutubeComponent implements OnInit {
       });
 
       this.filteredYoutubeTasks = this.taskCtrl.valueChanges
-        .startWith(null)
-        .map(taskId => {
-          return taskId ? this.filterTasks(taskId) : this.listYoutubeTasks.slice()
-        });
+        // .startWith(null)
+        // .map(taskId => {
+        //   return taskId ? this.filterTasks(taskId) : this.listYoutubeTasks.slice()
+        // });
+        .pipe(
+          startWith(''),
+          map(taskId => taskId ? this.filterTasks(taskId) : this.listYoutubeTasks.slice())
+        );
     }).catch((err: HttpErrorResponse) => {
       if (err.name == 'HttpErrorResponse') {
-        console.log('constructor -> getListYoutubeTasksId', err)
+        console.log('constructor -> getListYoutubeTasksId', err)        
       }
     });
 
@@ -96,17 +101,25 @@ export class SeoYoutubeComponent implements OnInit {
         this.listYoutubeTasks = result;
         console.log('RESULT', result);
         this.taskCtrl.valueChanges.subscribe(state => {
+          console.log('b')
           if (state != null) {
             this.selectedTaskId = state;
             this.getTaskModelById(this.selectedTaskId, this.listYoutubeTasks);
           }
         });
         this.filteredYoutubeTasks = this.taskCtrl.valueChanges
-          .map(taskId => taskId ? this.filterTasks(taskId) : this.listYoutubeTasks.slice());
+          .pipe(
+            startWith(''),
+            map(taskId => taskId ? this.filterTasks(taskId) : this.listYoutubeTasks.slice())
+          );
+          // .map(taskId => {
+          //   console.log('a')
+          //     return taskId ? this.filterTasks(taskId) : this.listYoutubeTasks.slice()
+          // });
       },
       error => {
         console.log('error', error)
-        this.listYoutubeTasks = null;
+        this.filteredYoutubeTasks = null;        
       }
     );
   }
@@ -129,6 +142,7 @@ export class SeoYoutubeComponent implements OnInit {
     this.isReadyToStart = false;
     this.descriptionContainerString = '';
     this.selectedTaskId = null;
+    this.oneTimeChanelLink = null;
   }
 
   apply() {

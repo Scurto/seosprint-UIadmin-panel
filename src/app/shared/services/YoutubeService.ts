@@ -7,6 +7,7 @@ import { HttpClient } from "@angular/common/http";
 import { YoutubeTask } from "../YoutubeTask";
 import { TransferModel } from "../TransferModel";
 import { SharedService } from "./SharedService";
+import { TaskMock } from "../mock/TaskMock";
 
 
 /**
@@ -41,9 +42,9 @@ export class YoutubeService {
     if (!this.sharedService.getMockDataFlag()) {
       return  this._http.post<YoutubeTask[]>(this.HTTPS_URL + "/youtube/listAllTaskModel", json)
     } else {
-      return this.myListYoutubeTasks.asObservable();
-    }
-    
+      let mockTaskList = new TaskMock().getListMockTasks();
+      return new BehaviorSubject<YoutubeTask[]>(mockTaskList).asObservable();      
+    }    
   }
 
   getLastUsedReklama(modelTaskId: string) {
@@ -127,10 +128,7 @@ export class YoutubeService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    return this._http.post<TransferModel>(this.HTTPS_URL + "/youtube/reklamaListForShow",
-      json
-
-    ).map(res => res);
+    return this._http.post<TransferModel>(this.HTTPS_URL + "/youtube/reklamaListForShow", json).map(res => res);
   }
 
   applyPromise(modelTaskId: string, countReklama: string, countMove: string, countVideo: string): Observable<TransferModel> {
@@ -188,55 +186,4 @@ export class YoutubeService {
       
     );
   }
-
-
-
-
-//   private currentPriceUrl = 'http://api.coindesk.com/v1/bpi/currentprice.json';
-
-//   async getPrice(currency: string): Promise<number> {
-//     const response = await this._http.get(this.currentPriceUrl).toPromise();
-//     return response.json().bpi[currency].rate;
-//   }
-
-myListYoutubeTasks = new BehaviorSubject<YoutubeTask[]>([ //REMOVE
-  {      
-    taskId: '1',
-    countVideo: '0',
-    countReklama: '0',
-    countMove: '0',
-    reklamaFreeze: 45,
-    videoFreeze: 45,
-    strategy: ''
-  },
-  {
-    taskId: '2',
-    countVideo: '0',
-    countReklama: '0',
-    countMove: '0',
-    reklamaFreeze: 45,
-    videoFreeze: 45,
-    strategy: ''
-  },
-  {
-    taskId: '3',
-    countVideo: '0',
-    countReklama: '0',
-    countMove: '0',
-    reklamaFreeze: 45,
-    videoFreeze: 45,
-    strategy: ''
-  },
-  {
-    taskId: '4',
-    countVideo: '0',
-    countReklama: '0',
-    countMove: '0',
-    reklamaFreeze: 45,
-    videoFreeze: 45,
-    strategy: ''
-  }
-]);
-
-
 }

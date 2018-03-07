@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row taskRow">
-                    <form>
+                    <form class="example-form">
                         <mat-form-field>
                             <input matInput placeholder="Task Id" aria-label="Task Id" [matAutocomplete]="auto" [formControl]="taskCtrl" 
                             (click)="onTaskIdClick()">
@@ -17,25 +17,28 @@
                     <button mat-raised-button color="primary" (click)="apply()">Apply</button>
                     <button mat-raised-button color="accent" disabled="{{!isReadyToStart}}" (click)="start()">Start</button>
                 </div>
+                <div>
+                  TASK URL
+                </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-12">
                 <mat-input-container class="fieldsArea120Width">
-                    <input matInput placeholder="Count Video" value="" [ngModel]="countVideo">
+                    <input matInput placeholder="Count Urls" value="" [ngModel]="countUrls">
                 </mat-input-container>
                 <mat-input-container class="fieldsArea120Width">
-                    <input matInput placeholder="Count Reklama" value="" [ngModel]="countReklama">
+                    <input matInput placeholder="Count Advertise" value="" [ngModel]="countAdvertise">
                 </mat-input-container>
                 <mat-input-container class="fieldsArea120Width">
                     <input matInput placeholder="Count Move" value="" [ngModel]="countMove">
                 </mat-input-container>
                 <mat-input-container class="fieldsArea100Width">
-                    <input matInput placeholder="Video freeze" value="" [ngModel]="videoFreeze">
+                    <input matInput placeholder="Site freeze" value="" [ngModel]="siteFreeze">
                 </mat-input-container>
                 <mat-input-container class="fieldsArea120Width">
-                    <input matInput placeholder="Reklama freeze" value="" [ngModel]="reklamaFreeze">
+                    <input matInput placeholder="Advertise freeze" value="" [ngModel]="advertiseFreeze">
                 </mat-input-container>
             </div>
         </div>
@@ -52,10 +55,10 @@
         <div class="row">
             <div class="col-md-12">
                 <button mat-raised-button color="primary" (click)="clear()">Clear</button>
-                <button mat-raised-button color="primary" (click)="testJms()">Test JMS</button>
+                <!-- <button mat-raised-button color="primary" (click)="testJms()">Test JMS</button>
                 <button mat-raised-button color="warn" (click)="openGclidPage()">Open GCLID page</button>
                 <button mat-raised-button (click)="doChangeVideoSource($event)">{{toggleVideoText}}</button>
-                <button mat-raised-button (click)="stopMusic()">Stop music</button>
+                <button mat-raised-button (click)="stopMusic()">Stop music</button> -->
             </div>
         </div>
     </div>
@@ -69,50 +72,7 @@
     </div>
     <div class="col-md-3">
         <div>
-            <youtube-player [videoId]="localVideoId" (ready)="savePlayer($event)" (change)="onStateChange($event)"></youtube-player>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="row">
-    <div class="col-sm-6">
-        <div class="card mb-3">
-            <div class="card-header">Start time:</div>
-            <div class="card-body">
-                <!-- <h4 class="card-title">Dark card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                <p [innerHTML]="startHtmlString" class="resultLeftAreaParagraph"></p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm-6">
-        <div class="card mb-3">
-            <div class="card-header">End time:</div>
-            <div class="card-body">
-                <!-- <h4 class="card-title">Dark card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                <p #finishHtml [innerHTML]="finishHtmlString" class="resultRightAreaParagraph"></p>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="downPanel">
-    <!-- <div class="left">
-        <div class="resultLeftArea">
-            <p [innerHTML]="startHtmlString" class="resultLeftAreaParagraph"></p>
-        </div>
-        <div class="resultRightArea">
-            <p #finishHtml [innerHTML]="finishHtmlString" class="resultRightAreaParagraph"></p>
-        </div>
-    </div> -->
-    <div class="right">
-        <div class="gClidContainer">
-            <p #descriptioHtml [innerHTML]="descriptionContainerString" class="resultRightAreaParagraph"></p>
+            IFRAME HERE
         </div>
     </div>
 </div>

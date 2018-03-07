@@ -5,6 +5,10 @@
             <i class="fa fa-youtube" aria-hidden="true"></i>&nbsp;{{ 'YouTube' | translate }}
         </a>
 
+        <a [routerLink]="['/seosite-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-desktop" aria-hidden="true"></i>&nbsp;{{ 'SeoSite' | translate }}
+        </a>
+
         <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
         </a>
