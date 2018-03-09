@@ -3,7 +3,7 @@ import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import {Observable, BehaviorSubject} from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { YoutubeTask } from "../YoutubeTask";
 import { TransferModel } from "../TransferModel";
 import { SharedService } from "./SharedService";
@@ -16,10 +16,11 @@ import { TaskMock } from "../mock/TaskMock";
 
 @Injectable()
 export class YoutubeService {
-
+  
 
   constructor(private _http: HttpClient, private sharedService: SharedService) {}
 
+  headers: HttpHeaders = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
   HTTPS_URL: string = 'https://localhost:8443';
 //   HTTPS_URL: string = 'http://localhost:8080';
   getTaskModelById(modelTaskId: string) {
@@ -74,17 +75,14 @@ export class YoutubeService {
   }
 
   youtubeCheck(chanelId: string): Observable<YouTubeVideoList> {
+    let params = new HttpParams();
+    params = params.append('part', "snippet");
+    params = params.append('channelId', chanelId);
+    params = params.append('maxResults', '50');
+    params = params.append('order', 'date');
+    params = params.append('key', 'AIzaSyD4uG1sdLHryZMwVDnUQBXXIdvGhAtGquA');
 
-    let params: URLSearchParams = new URLSearchParams();
-    params.set('part', "snippet");
-    params.set('channelId', chanelId);
-    params.set('maxResults', '50');
-    params.set('order', 'date');
-    params.set('key', 'AIzaSyD4uG1sdLHryZMwVDnUQBXXIdvGhAtGquA');
-
-    return  this._http.get<YouTubeVideoList>("https://www.googleapis.com/youtube/v3/search"
-    ).map(res => res);
-
+    return  this._http.get<YouTubeVideoList>("https://www.googleapis.com/youtube/v3/search", {params: params});
   }
 
 
@@ -131,21 +129,29 @@ export class YoutubeService {
     return this._http.post<TransferModel>(this.HTTPS_URL + "/youtube/reklamaListForShow", json).map(res => res);
   }
 
-  applyPromise(modelTaskId: string, countReklama: string, countMove: string, countVideo: string): Observable<TransferModel> {
+  advertiseListForShow(modelTaskId: string, countReklama: string, countMove: string, countVideo: string): Observable<TransferModel> {
     let json = JSON.stringify({
       taskId: modelTaskId,
       countOfReklama: countReklama,
       countOfMove: countMove,
       countOfVideo: countVideo
-    });
+    });    
 
-    // let headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
-
-    return this._http.post<TransferModel>(this.HTTPS_URL + "/youtube/reklamaListForShow", json); //maybe dont work !!!
+    return this._http.post<TransferModel>(this.HTTPS_URL + "/youtube/reklamaListForShow", json, {headers: this.headers});
   }
 
-  applyPromiseWithYoutubeList(modelTaskId: string, countReklama: string, countMove: string, countVideo: string, listVideo: string[]): Observable<TransferModel> {
+  oneTimeAdvertiseListForShow(chanelUrl: string, countReklama: string, countMove: string, countVideo: string): Observable<TransferModel> {
+    let json = JSON.stringify({
+      oneTimeChanelUrl: chanelUrl,
+      countOfReklama: countReklama,
+      countOfMove: countMove,
+      countOfVideo: countVideo
+    });    
+
+    return this._http.post<TransferModel>(this.HTTPS_URL + "/youtube/oneTimeAdvertiseListForShow", json, {headers: this.headers});
+  }
+
+  advertiseListWithYoutubeList(modelTaskId: string, countReklama: string, countMove: string, countVideo: string, listVideo: string[]): Observable<TransferModel> {
     let json = JSON.stringify({
       taskId: modelTaskId,
       countOfReklama: countReklama,
@@ -154,10 +160,7 @@ export class YoutubeService {
       listOfVideo: listVideo
     });
 
-    // let headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
-
-    return this._http.post<TransferModel>(this.HTTPS_URL + "/youtube/getMixedList", json); // maybe dont work !!!
+    return this._http.post<TransferModel>(this.HTTPS_URL + "/youtube/getMixedList", json, {headers: this.headers}); 
   }
 
   updateTask(modelTaskId: string, modelLastReklama: string) {

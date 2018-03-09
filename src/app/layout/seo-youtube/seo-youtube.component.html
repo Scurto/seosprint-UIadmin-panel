@@ -5,8 +5,7 @@
                 <div class="row taskRow">
                     <form>
                         <mat-form-field>
-                            <input matInput placeholder="Task Id" aria-label="Task Id" [matAutocomplete]="auto" [formControl]="taskCtrl" 
-                            (click)="onTaskIdClick()">
+                            <input matInput placeholder="Task Id" aria-label="Task Id" [matAutocomplete]="auto" [formControl]="taskCtrl" (click)="onTaskIdClick()">
                             <mat-autocomplete #auto="matAutocomplete">
                                 <mat-option *ngFor="let task of filteredYoutubeTasks | async" [value]="task.taskId">
                                     <span>{{ task.taskId }}</span>
@@ -23,19 +22,19 @@
         <div class="row">
             <div class="col-md-12">
                 <mat-input-container class="fieldsArea120Width">
-                    <input matInput placeholder="Count Video" value="" [ngModel]="countVideo">
+                    <input matInput placeholder="Count Video" value="" [(ngModel)]="countVideo">
                 </mat-input-container>
                 <mat-input-container class="fieldsArea120Width">
-                    <input matInput placeholder="Count Reklama" value="" [ngModel]="countReklama">
+                    <input matInput placeholder="Count Reklama" value="" [(ngModel)]="countReklama">
                 </mat-input-container>
                 <mat-input-container class="fieldsArea120Width">
-                    <input matInput placeholder="Count Move" value="" [ngModel]="countMove">
+                    <input matInput placeholder="Count Move" value="" [(ngModel)]="countMove">
                 </mat-input-container>
                 <mat-input-container class="fieldsArea100Width">
-                    <input matInput placeholder="Video freeze" value="" [ngModel]="videoFreeze">
+                    <input matInput placeholder="Video freeze" value="" [(ngModel)]="videoFreeze">
                 </mat-input-container>
                 <mat-input-container class="fieldsArea120Width">
-                    <input matInput placeholder="Reklama freeze" value="" [ngModel]="reklamaFreeze">
+                    <input matInput placeholder="Reklama freeze" value="" [(ngModel)]="reklamaFreeze">
                 </mat-input-container>
             </div>
         </div>
@@ -43,7 +42,7 @@
             <div class="col-md-12">
                 <div id="isOneTimeTaskFlagId" [ngbCollapse]="!isOneTimeTask">
                     <mat-input-container style="width: 595px">
-                        <input matInput placeholder="One Time Chanel Link" value="" [ngModel]="oneTimeChanelLink">
+                        <input matInput placeholder="One Time Chanel Link" value="" [(ngModel)]="oneTimeChanelLink">
                     </mat-input-container>
                 </div>
             </div>
@@ -59,13 +58,13 @@
             </div>
         </div>
     </div>
-    <div class="col-md-2">        
+    <div class="col-md-2">
         <mat-slide-toggle class="example-margin" [checked]="autoCloseAdvertiseFlag" (change)="autoCloseAdvertise($event)">
             Auto close advertise
         </mat-slide-toggle>
         <mat-slide-toggle class="example-margin" (change)="isOneTimeTask = !isOneTimeTask" [attr.aria-expanded]="isOneTimeTask" aria-controls="isOneTimeTaskFlagId">
             One Time Task
-        </mat-slide-toggle>        
+        </mat-slide-toggle>
     </div>
     <div class="col-md-3">
         <div>
@@ -79,10 +78,11 @@
 <div class="row">
     <div class="col-sm-6">
         <div class="card mb-3">
-            <div class="card-header">Start time:</div>
+            <div class="card-header">
+                <span>Start time:</span>
+                <span #startTime></span>
+            </div>
             <div class="card-body">
-                <!-- <h4 class="card-title">Dark card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                 <p [innerHTML]="startHtmlString" class="resultLeftAreaParagraph"></p>
             </div>
         </div>
@@ -90,10 +90,12 @@
 
     <div class="col-sm-6">
         <div class="card mb-3">
-            <div class="card-header">End time:</div>
+            <div class="card-header">
+                <span>End time:</span>
+                <span #endTime></span>
+                <i class="fa fa-exclamation-triangle endTimeIcon" #endIcon></i>
+            </div>
             <div class="card-body">
-                <!-- <h4 class="card-title">Dark card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                 <p #finishHtml [innerHTML]="finishHtmlString" class="resultRightAreaParagraph"></p>
             </div>
         </div>
