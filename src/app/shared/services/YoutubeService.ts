@@ -1,9 +1,9 @@
-import {Headers, URLSearchParams} from "@angular/http";
+import {Headers, URLSearchParams, ResponseType, ResponseContentType} from "@angular/http";
 import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import {Observable, BehaviorSubject} from "rxjs";
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpResponse } from "@angular/common/http";
 import { YoutubeTask } from "../YoutubeTask";
 import { TransferModel } from "../TransferModel";
 import { SharedService } from "./SharedService";
@@ -20,7 +20,8 @@ export class YoutubeService {
 
   constructor(private _http: HttpClient, private sharedService: SharedService) {}
 
-  headers: HttpHeaders = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
+  headers: HttpHeaders = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});  
+  
   HTTPS_URL: string = 'https://localhost:8443';
 //   HTTPS_URL: string = 'http://localhost:8080';
   getTaskModelById(modelTaskId: string) {
@@ -179,14 +180,7 @@ export class YoutubeService {
     });
   }
 
-  getGClid() {
-    console.log("getGClid");
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    return this._http.get(this.HTTPS_URL + "/gclid/getGClid",
-      // json,
-      
-    );
-  }
+  getGClid() {    
+    return this._http.get(this.HTTPS_URL + "/gclid/getGClid", {responseType: 'text'})
+  }  
 }

@@ -82,8 +82,8 @@
                 <span>Start time:</span>
                 <span #startTime></span>
             </div>
-            <div class="card-body">
-                <p [innerHTML]="startHtmlString" class="resultLeftAreaParagraph"></p>
+            <div class="card-body resultArea">
+                <p [innerHTML]="startHtmlString"></p>
             </div>
         </div>
     </div>
@@ -95,8 +95,9 @@
                 <span #endTime></span>
                 <i class="fa fa-exclamation-triangle endTimeIcon" #endIcon></i>
             </div>
-            <div class="card-body">
-                <p #finishHtml [innerHTML]="finishHtmlString" class="resultRightAreaParagraph"></p>
+            <div class="card-body resultArea">
+                <p #finishYoutubeUrlsHtml [innerHTML]="finishYoutubeUrls"></p>
+                <p #finishAdvertiseHtml [innerHTML]="finishAdvertiseUrls"></p>
             </div>
         </div>
     </div>
