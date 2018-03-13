@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { SitesTask } from '../../shared/SitesTask';
@@ -33,6 +33,8 @@ export class SeoSiteComponent implements OnInit {
   strategy: string = 'classic';
   oneTimeChanelLink: string;
   isOneTimeTask: boolean = false;
+
+  @ViewChild('webFrame') webFrame;
 
   autoCloseAdvertiseFlag: boolean = true;
 
@@ -114,7 +116,11 @@ export class SeoSiteComponent implements OnInit {
     }
   }
 
-  apply() {}
+  apply() {
+    console.log(this.webFrame);
+    // this.webFrame.nativeElement.src = 'https://www.bigmir.net';
+    this.webFrame.nativeElement.src = this.mainUrl;
+  }
   start() {}
 
   clear() {
@@ -126,6 +132,7 @@ export class SeoSiteComponent implements OnInit {
     this.siteFreeze = null;
     this.advertiseFreeze = null;
     this.taskCtrl.reset();
+    this.webFrame.nativeElement.src = null;
   }
 
   autoCloseAdvertise(event) {
