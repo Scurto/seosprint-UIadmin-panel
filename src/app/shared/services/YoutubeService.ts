@@ -103,18 +103,7 @@ export class YoutubeService {
   }
 
 
-  autoCloseAdvertise(autoClose: string) {
-    var json = JSON.stringify({
-      flag: autoClose
-    });
-
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    return  this._http.post(this.HTTPS_URL + "/gclid/setAutoCloseAdvertise",
-      json      
-    ).map(res => res);
-  }
+  
 
   apply(modelTaskId: string, countReklama: string, countMove: string, countVideo: string): Observable<TransferModel> {
     let json = JSON.stringify({

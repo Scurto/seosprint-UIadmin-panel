@@ -5,10 +5,9 @@
                 <div class="row taskRow">
                     <form class="example-form">
                         <mat-form-field>
-                            <input matInput placeholder="Task Id" aria-label="Task Id" [matAutocomplete]="auto" [formControl]="taskCtrl" 
-                            (click)="onTaskIdClick()">
+                            <input matInput placeholder="Task Id" aria-label="Task Id" [matAutocomplete]="auto" [formControl]="taskCtrl" (click)="onTaskIdClick()">
                             <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let task of filteredYoutubeTasks | async" [value]="task.taskId">
+                                <mat-option *ngFor="let task of filteredSitesTasks | async" [value]="task.taskId">
                                     <span>{{ task.taskId }}</span>
                                 </mat-option>
                             </mat-autocomplete>
@@ -17,13 +16,15 @@
                     <button mat-raised-button color="primary" (click)="apply()">Apply</button>
                     <button mat-raised-button color="accent" disabled="{{!isReadyToStart}}" (click)="start()">Start</button>
                 </div>
-                <div>
-                  TASK URL
-                </div>
             </div>
         </div>
 
         <div class="row">
+            <div class="col-md-12">
+                <mat-input-container style="width: 595px">
+                    <input matInput placeholder="One Time Chanel Link" value="" [(ngModel)]="mainUrl">
+                </mat-input-container>
+            </div>
             <div class="col-md-12">
                 <mat-input-container class="fieldsArea120Width">
                     <input matInput placeholder="Count Urls" value="" [ngModel]="countUrls">
@@ -62,13 +63,13 @@
             </div>
         </div>
     </div>
-    <div class="col-md-2">        
+    <div class="col-md-2">
         <mat-slide-toggle class="example-margin" [checked]="autoCloseAdvertiseFlag" (change)="autoCloseAdvertise($event)">
             Auto close advertise
         </mat-slide-toggle>
         <mat-slide-toggle class="example-margin" (change)="isOneTimeTask = !isOneTimeTask" [attr.aria-expanded]="isOneTimeTask" aria-controls="isOneTimeTaskFlagId">
             One Time Task
-        </mat-slide-toggle>        
+        </mat-slide-toggle>
     </div>
     <div class="col-md-3">
         <div>

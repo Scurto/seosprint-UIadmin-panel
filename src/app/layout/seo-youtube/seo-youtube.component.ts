@@ -500,7 +500,7 @@ export class SeoYoutubeComponent implements OnInit {
   autoCloseAdvertise(event) {
     console.log('event', event.checked);
     let autoClose: string = event.checked ? "" : "no";
-    this.service.autoCloseAdvertise(autoClose).subscribe(
+    this.sharedService.autoCloseAdvertise(autoClose).subscribe(
       data => {
         console.log("autoCloseAdvertise -> ", data);
       },
