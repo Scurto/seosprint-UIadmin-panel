@@ -303,17 +303,17 @@ export class SeoYoutubeComponent implements OnInit {
         return;
       }
 
-      // let startDelay: number = 35000;
-      // let videoDelay: number = videoFreeze * 1000;
-      // let primaryReklamaDelay: number = reklamaFreeze * 1000;
-      // let secondaryReklamaDelay: number = reklamaFreeze * 1000; 
-      // let finishDelay: number = 35000;
+      let startDelay: number = 35000;
+      let videoDelay: number = videoFreeze * 1000;
+      let primaryReklamaDelay: number = reklamaFreeze * 1000;
+      let secondaryReklamaDelay: number = reklamaFreeze * 1000;
+      let finishDelay: number = 35000;
 
-      let startDelay: number = 0;
-      let videoDelay: number = 1 * 1000;
-      let primaryReklamaDelay: number = 1 * 1000;
-      let secondaryReklamaDelay: number = 1 * 1000; 
-      let finishDelay: number = 0;
+      // let startDelay: number = 0;
+      // let videoDelay: number = 1 * 1000;
+      // let primaryReklamaDelay: number = 1 * 1000;
+      // let secondaryReklamaDelay: number = 1 * 1000;
+      // let finishDelay: number = 0;
 
       let startTime = new Date();
       strategyModel.startTime.nativeElement.innerHTML = startTime.getHours() + ':' + startTime.getMinutes() + ':' + startTime.getSeconds(); // set start time

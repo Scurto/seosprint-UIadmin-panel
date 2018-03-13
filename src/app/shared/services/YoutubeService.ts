@@ -159,12 +159,7 @@ export class YoutubeService {
       lastReklama: modelLastReklama
     });
 
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    return  this._http.post(this.HTTPS_URL + "/youtube/updateTask",
-      json
-    ).map(res => {
+    return  this._http.post(this.HTTPS_URL + "/youtube/updateTask", json,{headers: this.headers}).map(res => {
       console.log("update result->", res);
     });
   }
