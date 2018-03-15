@@ -327,6 +327,7 @@ export class SeoYoutubeComponent implements OnInit {
           for (let rekText of prepearedModel.transferReklamaModel[0].textLine) {
             timeDelay = timeDelay + secondaryReklamaDelay;
           }
+          prepearedModel.transferReklamaModel.splice(0, 1);
         }
       }
       timeDelay = timeDelay + finishDelay;

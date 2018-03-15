@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable()
 export class SharedService {
 
     HTTPS_URL: string = 'https://localhost:8443';
+    headers: HttpHeaders = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'}); 
 
     constructor(private _http: HttpClient) {}
 
@@ -23,11 +24,9 @@ export class SharedService {
           flag: autoClose
         });
     
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        // var headers = new Headers();
+        // headers.append('Content-Type', 'application/json');
     
-        return  this._http.post(this.HTTPS_URL + "/gclid/setAutoCloseAdvertise",
-          json      
-        ).map(res => res);
+        return  this._http.post(this.HTTPS_URL + "/gclid/setAutoCloseAdvertise", json, {headers: this.headers, responseType: 'text'}).map(res => res);
       }
 }
