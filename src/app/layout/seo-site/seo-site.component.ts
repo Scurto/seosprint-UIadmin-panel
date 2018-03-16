@@ -9,12 +9,14 @@ import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 import 'rxjs/add/operator/toPromise';
 import { Subscription } from "rxjs";
+import { routerTransition } from '../../router.animations';
 
 @Component({
   selector: 'app-seo-site',
   templateUrl: './seo-site.component.html',
   styleUrls: ['./seo-site.component.scss'],
-  providers: [SitesService]
+  providers: [SitesService],
+  animations: [routerTransition()]
 })
 export class SeoSiteComponent implements OnInit {
   
@@ -147,4 +149,32 @@ export class SeoSiteComponent implements OnInit {
     );
   }
 
+  getSiteUrls() {
+    console.log(this.mainUrlsDatasource.length > 0)
+    this.service.getSiteUrls('').subscribe(
+      data => {
+        console.log("getSiteUrls -> ", data);
+        this.mainUrlsDatasource = data;
+      },
+      // error => alert(error),
+      () => console.log("request completed")
+    );
+  } 
+
+  addToFinalGrid(element) {
+    console.log('element', element);
+    this.secondaryUrlsDatasource.push(element);
+  }
+
+  removeFromSecondaryGrid(element) {
+    console.log('element', this.secondaryUrlsDatasource.indexOf(element));
+    console.log('element', this.secondaryUrlsDatasource.indexOf('elemeasdasdnt'));
+    this.secondaryUrlsDatasource.splice(this.secondaryUrlsDatasource.indexOf(element), 1);
+    
+  }
+
+  displayedColumns = ['name', 'checkButton'];
+  
+  mainUrlsDatasource = [];
+  secondaryUrlsDatasource = [];
 }

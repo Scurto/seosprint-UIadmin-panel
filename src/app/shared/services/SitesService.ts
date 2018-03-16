@@ -23,5 +23,14 @@ export class SitesService {
         //   let mockTaskList = new TaskMock().getListMockTasks();
         //   return new BehaviorSubject<SitesTask[]>(mockTaskList).asObservable();      
         }    
-      }
+    }
+
+    getSiteUrls(url: string): Observable<String[]> {
+        // url = 'https://bitcoinru.top/';
+        url = 'http://detskie-recepty.ru';
+        var json = JSON.stringify({
+            websiteUrl: url
+        });
+        return  this._http.post<String[]>(this.HTTPS_URL + "/website/getListSiteUrls", url)
+    }
 }

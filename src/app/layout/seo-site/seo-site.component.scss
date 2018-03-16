@@ -13,3 +13,14 @@
 .fieldsArea120Width {
     width: 120px;
 }
+
+.gridContainer {
+    overflow: auto;
+    max-height: 585px;
+    display: block
+}
+
+.table td {
+    padding: 0;
+    vertical-align: baseline;
+}
