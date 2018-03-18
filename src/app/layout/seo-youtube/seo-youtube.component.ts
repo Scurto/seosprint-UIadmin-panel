@@ -317,7 +317,7 @@ export class SeoYoutubeComponent implements OnInit {
 
       let startTime = new Date();
       strategyModel.startTime.nativeElement.innerHTML = startTime.getHours() + ':' + startTime.getMinutes() + ':' + startTime.getSeconds(); // set start time
-      
+
       let timeDelay = startDelay;
       for (let i = 0; i < prepearedModel.transferVideoModel.length; i++) {
         timeDelay = timeDelay + videoDelay;
@@ -327,15 +327,15 @@ export class SeoYoutubeComponent implements OnInit {
           for (let rekText of prepearedModel.transferReklamaModel[0].textLine) {
             timeDelay = timeDelay + secondaryReklamaDelay;
           }
-          prepearedModel.transferReklamaModel.splice(0, 1);
+          // prepearedModel.transferReklamaModel.splice(0, 1);
         }
       }
       timeDelay = timeDelay + finishDelay;
-      
+
 
       let endTime = new Date(startTime.getTime() + timeDelay);
       strategyModel.endTime.nativeElement.innerHTML = endTime.getHours() + ':' + endTime.getMinutes() + ':' + endTime.getSeconds(); // set end time
-      
+
       strategyModel.player.mute();
       let YOUTUBE: string = 'https://www.youtube.com/watch?v=';
 
