@@ -25,9 +25,7 @@ export class SitesService {
         }    
     }
 
-    getSiteUrls(url: string): Observable<String[]> {
-        // url = 'https://bitcoinru.top/';
-        url = 'http://detskie-recepty.ru';
+    getSiteUrls(url: string): Observable<String[]> {        
         var json = JSON.stringify({
             websiteUrl: url
         });

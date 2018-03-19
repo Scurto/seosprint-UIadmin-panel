@@ -35,8 +35,20 @@ export class SeoSiteComponent implements OnInit {
   strategy: string = 'classic';
   oneTimeChanelLink: string;
   isOneTimeTask: boolean = false;
+  sitesLeft: number = 0;
+  startHtmlString: string;
+  finishSiteUrls: string;
+  finishAdvertiseUrls: string;
+  showLoader: boolean = false;
 
   @ViewChild('webFrame') webFrame;
+  @ViewChild('finishSiteUrlsHtml') finishSiteUrlsHtml;
+  @ViewChild('finishAdvertiseHtml') finishAdvertiseHtml;
+  @ViewChild('finishTab') finishTab;
+  @ViewChild('startTime') startTime;
+  @ViewChild('endTime') endTime;
+  @ViewChild('endIcon') endIcon;
+  @ViewChild('spiner') spiner;
 
   autoCloseAdvertiseFlag: boolean = true;
 
@@ -114,14 +126,22 @@ export class SeoSiteComponent implements OnInit {
         this.siteFreeze = task.siteFreeze;
         this.advertiseFreeze = task.advertiseFreeze;      
         this.strategy = task.strategy;
+        this.sitesLeft = Number.parseInt(task.countSecondaryUrls); 
       }
-    }
+    }    
   }
 
   apply() {
-    console.log(this.webFrame);
-    // this.webFrame.nativeElement.src = 'https://www.bigmir.net';
-    this.webFrame.nativeElement.src = this.mainUrl;
+    this.showLoader = true;
+    this.service.getSiteUrls(this.mainUrl).subscribe(
+      data => {
+        console.log("getSiteUrls -> ", data);
+        this.mainUrlsDatasource = data;
+        this.showLoader = false;
+      },
+      // error => alert(error),
+      () => console.log("request completed")
+    );
   }
   start() {}
 
@@ -149,28 +169,24 @@ export class SeoSiteComponent implements OnInit {
     );
   }
 
-  getSiteUrls() {
-    console.log(this.mainUrlsDatasource.length > 0)
-    this.service.getSiteUrls('').subscribe(
-      data => {
-        console.log("getSiteUrls -> ", data);
-        this.mainUrlsDatasource = data;
-      },
-      // error => alert(error),
-      () => console.log("request completed")
-    );
-  } 
+  nextStepWithUrls() {
+    console.log('nextStepWithUrls', this.finishTab);
+    this.finishTab.isActive = true;
+  }
 
   addToFinalGrid(element) {
-    console.log('element', element);
     this.secondaryUrlsDatasource.push(element);
+    this.sitesLeft-=1;
   }
 
   removeFromSecondaryGrid(element) {
-    console.log('element', this.secondaryUrlsDatasource.indexOf(element));
-    console.log('element', this.secondaryUrlsDatasource.indexOf('elemeasdasdnt'));
     this.secondaryUrlsDatasource.splice(this.secondaryUrlsDatasource.indexOf(element), 1);
-    
+    this.sitesLeft+=1;
+  }
+
+  removeAllFromSecondary() {    
+    this.secondaryUrlsDatasource = [];
+    this.sitesLeft = Number.parseInt(this.countUrls);
   }
 
   displayedColumns = ['name', 'checkButton'];

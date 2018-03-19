@@ -56,11 +56,12 @@
         <div class="row">
             <div class="col-md-12">
                 <button mat-raised-button color="primary" (click)="clear()">Clear</button>
-                <button mat-raised-button color="primary" (click)="getSiteUrls()">GetSiteUrls</button>
+                <!-- <button mat-raised-button color="primary" (click)="getSiteUrls()">GetSiteUrls</button> -->
                 <!-- <button mat-raised-button color="primary" (click)="testJms()">Test JMS</button>
                 <button mat-raised-button color="warn" (click)="openGclidPage()">Open GCLID page</button>
                 <button mat-raised-button (click)="doChangeVideoSource($event)">{{toggleVideoText}}</button>
                 <button mat-raised-button (click)="stopMusic()">Stop music</button> -->
+                <i class="fa fa-spinner loader" aria-hidden="true" [hidden]='!showLoader'></i>
             </div>
         </div>
     </div>
@@ -83,7 +84,7 @@
 <mat-card style="height: 645px; padding: 5px;">
     <mat-card-content>
         <mat-tab-group class="demo-tab-group">
-            <mat-tab label="Tab 1">
+            <!-- <mat-tab label="Tab 1">
                 <div class="col-md-7 gridContainer">
                     <mat-table #table [dataSource]="mainUrlsDatasource">
                         <ng-container matColumnDef="name">
@@ -102,8 +103,8 @@
 
                     </mat-table>
                 </div>
-            </mat-tab>
-            <mat-tab label="Tab 2">
+            </mat-tab> -->
+            <mat-tab label="Tab 1">
                 <div style="display: flex">
                     <div class="col-md-6">
                         <table class="table gridContainer">
@@ -114,13 +115,13 @@
                                 <tr *ngFor="let rowUrl of mainUrlsDatasource; let i = index">
                                     <td>{{rowUrl}}</td>
                                     <td>
-                                        <button mat-raised-button color="primary" (click)="addToFinalGrid(rowUrl)" [disabled]="secondaryUrlsDatasource.indexOf(rowUrl) != -1">Add</button>
+                                        <button mat-raised-button color="primary" (click)="addToFinalGrid(rowUrl)" [disabled]="secondaryUrlsDatasource.indexOf(rowUrl) != -1 || sitesLeft == 0">Add</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <table class="table gridContainer">
                             <div class="card-header" [hidden]="mainUrlsDatasource.length > 0">
                                 Secondary Urls
@@ -135,7 +136,41 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="col-md-1">
+                            Sites left: {{sitesLeft}}
+                            <button mat-raised-button color="primary" (click)="removeAllFromSecondary()">Remove All</button>
+                            <button mat-raised-button color="primary" (click)="nextStepWithUrls()">Add All</button>
+                    </div>
                 </div>
+            </mat-tab>
+            <mat-tab label="Tab 2" #finishTab>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <span>Start time:</span>
+                                    <span #startTime></span>
+                                </div>
+                                <div class="card-body resultArea">
+                                    <p [innerHTML]="startHtmlString"></p>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="col-sm-6">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <span>End time:</span>
+                                    <span #endTime></span>
+                                    <i class="fa fa-exclamation-triangle endTimeIcon" #endIcon></i>
+                                </div>
+                                <div class="card-body resultArea">
+                                    <p #finishSiteUrlsHtml [innerHTML]="finishSiteUrls"></p>
+                                    <p #finishAdvertiseHtml [innerHTML]="finishAdvertiseUrls"></p>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </mat-tab>
         </mat-tab-group>
 

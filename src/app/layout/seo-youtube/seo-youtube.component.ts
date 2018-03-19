@@ -200,9 +200,12 @@ export class SeoYoutubeComponent implements OnInit {
     this.audio.load();
 
     let strategyModel = {
+      reklamaFreeze: this.reklamaFreeze,
+      videoFreeze: this.videoFreeze,
       finishYoutubeUrlsHtml: this.finishYoutubeUrlsHtml,
       finishAdvertiseHtml: this.finishAdvertiseHtml,
       player: this.player,
+      descriptioHtml: this.descriptioHtml,
       oneTimeChanelLink: this.oneTimeChanelLink,
       startTime: this.startTime,
       endTime: this.endTime,
@@ -210,7 +213,7 @@ export class SeoYoutubeComponent implements OnInit {
     }
 
     if (this.strategy == 'classic') {
-      classicStrategy(this.service, this.selectedTaskId, this.prepearedModel, this.reklamaFreeze, this.videoFreeze, this.descriptioHtml, this.audio, strategyModel);
+      classicStrategy(this.service, this.selectedTaskId, this.prepearedModel, this.audio, strategyModel);
     } else if (this.strategy == 'rpte') {
       randomPositionTextEndStrategy(this.service, this.selectedTaskId, this.prepearedModel, this.finishYoutubeUrlsHtml, this.player, this.reklamaFreeze, this.videoFreeze, this.descriptioHtml, this.audio, this.oneTimeChanelLink);
     }
@@ -227,8 +230,6 @@ export class SeoYoutubeComponent implements OnInit {
         console.log("AHTUNG !!!!");
         return;
       }
-
-      // Math.floor(Math.random()*10);
 
       let startDelay: number = 10000;
       let videoDelay: number = videoFreeze * 1000;
@@ -289,24 +290,24 @@ export class SeoYoutubeComponent implements OnInit {
 
 
 
-    async function classicStrategy(service: YoutubeService, selectedTaskId, prepearedModel, reklamaFreeze, videoFreeze, descriptioHtml, audio, strategyModel) {
+    async function classicStrategy(service: YoutubeService, selectedTaskId, prepearedModel, audio, strategyModel) {
       if (service == null ||
         (selectedTaskId == null && strategyModel.oneTimeChanelLink == null) ||
         prepearedModel == null ||
         strategyModel.finishAdvertiseHtml == null ||
         strategyModel.finishYoutubeUrlsHtml == null ||
-        descriptioHtml == null ||
+        strategyModel.descriptioHtml == null ||
         strategyModel.player == null ||
         audio == null ||
-        reklamaFreeze == null || videoFreeze == null) {
+        strategyModel.reklamaFreeze == null || strategyModel.videoFreeze == null) {
         console.log("AHTUNG !!!!", strategyModel);
         return;
       }
 
       let startDelay: number = 35000;
-      let videoDelay: number = videoFreeze * 1000;
-      let primaryReklamaDelay: number = reklamaFreeze * 1000;
-      let secondaryReklamaDelay: number = reklamaFreeze * 1000;
+      let videoDelay: number = strategyModel.videoFreeze * 1000;
+      let primaryReklamaDelay: number = strategyModel.reklamaFreeze * 1000;
+      let secondaryReklamaDelay: number = strategyModel.reklamaFreeze * 1000;
       let finishDelay: number = 35000;
 
       // let startDelay: number = 0;
@@ -315,26 +316,7 @@ export class SeoYoutubeComponent implements OnInit {
       // let secondaryReklamaDelay: number = 1 * 1000;
       // let finishDelay: number = 0;
 
-      let startTime = new Date();
-      strategyModel.startTime.nativeElement.innerHTML = startTime.getHours() + ':' + startTime.getMinutes() + ':' + startTime.getSeconds(); // set start time
-
-      let timeDelay = startDelay;
-      for (let i = 0; i < prepearedModel.transferVideoModel.length; i++) {
-        timeDelay = timeDelay + videoDelay;
-        if (prepearedModel.transferReklamaModel.length > 0) {
-          timeDelay = timeDelay + 3000;
-          timeDelay = timeDelay + primaryReklamaDelay;
-          for (let rekText of prepearedModel.transferReklamaModel[0].textLine) {
-            timeDelay = timeDelay + secondaryReklamaDelay;
-          }
-          // prepearedModel.transferReklamaModel.splice(0, 1);
-        }
-      }
-      timeDelay = timeDelay + finishDelay;
-
-
-      let endTime = new Date(startTime.getTime() + timeDelay);
-      strategyModel.endTime.nativeElement.innerHTML = endTime.getHours() + ':' + endTime.getMinutes() + ':' + endTime.getSeconds(); // set end time
+      addTimer();
 
       strategyModel.player.mute();
       let YOUTUBE: string = 'https://www.youtube.com/watch?v=';
@@ -345,7 +327,7 @@ export class SeoYoutubeComponent implements OnInit {
       var youtubeUrlsText = 'https://www.youtube.com/' + prepearedModel.transferChanelId + '<br>';
       var advertiseText = '';
       youtubeUrlsText = youtubeUrlsText + '<br>';
-      advertiseText = advertiseText + '<br>';
+      advertiseText = advertiseText + '<br>';      
       for (let i = 0; i < prepearedModel.transferVideoModel.length; i++) {
         youtubeUrlsText = youtubeUrlsText + YOUTUBE + prepearedModel.transferVideoModel[i] + '<br>';
         strategyModel.player.loadVideoById(prepearedModel.transferVideoModel[i]);
@@ -382,6 +364,33 @@ export class SeoYoutubeComponent implements OnInit {
           console.log('task completed');
         });
       audio.play();
+
+      function addTimer() {
+        let startTime = new Date();
+        strategyModel.startTime.nativeElement.innerHTML = startTime.getHours() + ':' + startTime.getMinutes() + ':' + startTime.getSeconds(); // set start time
+
+        let timeDelay = startDelay;        
+        let prepearedModelHelp: TransferModel = new TransferModel();
+        prepearedModelHelp.transferReklamaModel = [];
+        for (let model of prepearedModel.transferReklamaModel) {
+          prepearedModelHelp.transferReklamaModel.push(model);
+        }
+
+        for (let i = 0; i < prepearedModel.transferVideoModel.length; i++) {
+          timeDelay = timeDelay + videoDelay;
+          if (prepearedModelHelp.transferReklamaModel.length > 0) {
+            timeDelay = timeDelay + 3000;
+            timeDelay = timeDelay + primaryReklamaDelay;
+            for (let rekText of prepearedModel.transferReklamaModel[0].textLine) {
+              timeDelay = timeDelay + secondaryReklamaDelay;
+            }
+            prepearedModelHelp.transferReklamaModel.splice(0, 1);
+          }
+        }
+        timeDelay = timeDelay + finishDelay;
+        let endTime = new Date(startTime.getTime() + timeDelay);
+        strategyModel.endTime.nativeElement.innerHTML = endTime.getHours() + ':' + endTime.getMinutes() + ':' + endTime.getSeconds(); // set end time
+      }
     }
 
   }
