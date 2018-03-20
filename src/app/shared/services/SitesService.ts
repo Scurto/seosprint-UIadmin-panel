@@ -4,6 +4,7 @@ import { SharedService } from "./SharedService";
 import { Observable } from "rxjs/Observable";
 import { SitesTask } from "../SitesTask";
 import { BehaviorSubject } from "rxjs";
+import { TransferModel } from "../TransferModel";
 
 @Injectable()
 export class SitesService {
@@ -30,5 +31,24 @@ export class SitesService {
             websiteUrl: url
         });
         return  this._http.post<String[]>(this.HTTPS_URL + "/website/getListSiteUrls", url)
+    }
+
+    advertiseListForSiteShow(modelTaskId: string, countAdvertise: string, countMove: string, countUrls: string): Observable<TransferModel> {
+        let json = JSON.stringify({
+          taskId: modelTaskId,
+          countOfAdvertise: countAdvertise,
+          countOfMove: countMove,
+          countOfUrls: countUrls
+        });    
+    
+        return this._http.post<TransferModel>(this.HTTPS_URL + "/website/advertiseListForSiteShow", json, {headers: this.headers});
+    }
+
+    isLinkActive(url: string) {
+        var json = JSON.stringify({
+            mainUrl: url
+        });
+      
+        return  this._http.post(this.HTTPS_URL + "/website/isLinkActive", json, {headers: this.headers, responseType: 'text'});
     }
 }

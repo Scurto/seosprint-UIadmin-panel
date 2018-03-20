@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators/map';
 import 'rxjs/add/operator/toPromise';
 import { Subscription } from "rxjs";
 import { routerTransition } from '../../router.animations';
+import { TransferModel } from '../../shared/TransferModel';
 
 @Component({
   selector: 'app-seo-site',
@@ -40,11 +41,14 @@ export class SeoSiteComponent implements OnInit {
   finishSiteUrls: string;
   finishAdvertiseUrls: string;
   showLoader: boolean = false;
+  showLoaderError: boolean = false;
+  failIterator: number = 0;
+  prepearedModel: TransferModel;
 
   @ViewChild('webFrame') webFrame;
   @ViewChild('finishSiteUrlsHtml') finishSiteUrlsHtml;
   @ViewChild('finishAdvertiseHtml') finishAdvertiseHtml;
-  @ViewChild('finishTab') finishTab;
+  @ViewChild('matTab') matTab;
   @ViewChild('startTime') startTime;
   @ViewChild('endTime') endTime;
   @ViewChild('endIcon') endIcon;
@@ -133,14 +137,19 @@ export class SeoSiteComponent implements OnInit {
 
   apply() {
     this.showLoader = true;
+    this.showLoaderError = false;
     this.service.getSiteUrls(this.mainUrl).subscribe(
       data => {
         console.log("getSiteUrls -> ", data);
         this.mainUrlsDatasource = data;
-        this.showLoader = false;
+        this.showLoader = false;        
       },
       // error => alert(error),
-      () => console.log("request completed")
+      () => {
+        console.log("request completed")
+        this.showLoader = false;
+        this.showLoaderError = true;
+      }
     );
   }
   start() {}
@@ -155,6 +164,9 @@ export class SeoSiteComponent implements OnInit {
     this.advertiseFreeze = null;
     this.taskCtrl.reset();
     this.webFrame.nativeElement.src = null;
+    this.sitesLeft = 0;
+    this.mainUrlsDatasource = [];
+    this.secondaryUrlsDatasource = [];
   }
 
   autoCloseAdvertise(event) {
@@ -170,13 +182,58 @@ export class SeoSiteComponent implements OnInit {
   }
 
   nextStepWithUrls() {
-    console.log('nextStepWithUrls', this.finishTab);
-    this.finishTab.isActive = true;
+    this.startHtmlString = '';
+    this.matTab.selectedIndex = 1;
+
+    this.getPrepareText()
+    this.getAdvertise();
+    
+  }
+
+  getPrepareText() {
+    let myText: string = '';
+    for (let url of this.secondaryUrlsDatasource) {
+      myText += url + '<br>' + '<br>';
+    }
+
+    this.startHtmlString += myText;
+  }  
+
+  getAdvertise() {
+    if (this.selectedTaskId != null) {
+      Promise.resolve().then(_ => {        
+        return this.service.advertiseListForSiteShow(this.selectedTaskId, this.countAdvertise, this.countMove, this.countUrls).toPromise();
+      }).then(data => {        
+        this.prepearedModel = data;
+        this.isReadyToStart = true;
+        let myText: string = '';
+        for (let i = 0; i < this.prepearedModel.transferReklamaModel.length; i++) {
+          myText = myText + this.prepearedModel.transferReklamaModel[i].gclidLine + '<br>';    
+          for (let rekText of this.prepearedModel.transferReklamaModel[i].textLine) {
+              myText = myText + rekText + '<br>';
+          }    
+          myText = myText + '<br>';    
+        }
+        this.startHtmlString += myText;
+      }).catch(reason => {
+        console.log('Promise fail', reason);
+        if (this.failIterator < 10) {
+          this.apply();
+          this.failIterator++;
+        } else {
+          this.failIterator = 0;
+          console.log('ALL BAD');
+        }
+
+      });
+    }
   }
 
   addToFinalGrid(element) {
-    this.secondaryUrlsDatasource.push(element);
     this.sitesLeft-=1;
+    this.service.isLinkActive(element).subscribe(result => {
+      this.secondaryUrlsDatasource.push(element);      
+    })    
   }
 
   removeFromSecondaryGrid(element) {

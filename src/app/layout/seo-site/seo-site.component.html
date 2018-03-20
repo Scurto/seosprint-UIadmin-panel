@@ -15,6 +15,8 @@
                     </form>
                     <button mat-raised-button color="primary" (click)="apply()">Apply</button>
                     <button mat-raised-button color="accent" disabled="{{!isReadyToStart}}" (click)="start()">Start</button>
+                    <i class="fa fa-spinner loader" aria-hidden="true" [hidden]='!showLoader'></i>
+                    <i class="fa fa-exclamation-triangle loaderError" aria-hidden="true" [hidden]='!showLoaderError'></i>                   
                 </div>
             </div>
         </div>
@@ -22,7 +24,7 @@
         <div class="row">
             <div class="col-md-12">
                 <mat-input-container style="width: 595px">
-                    <input matInput placeholder="One Time Chanel Link" value="" [(ngModel)]="mainUrl">
+                    <input matInput placeholder="Site url" value="" [(ngModel)]="mainUrl">
                 </mat-input-container>
             </div>
             <div class="col-md-12">
@@ -61,7 +63,7 @@
                 <button mat-raised-button color="warn" (click)="openGclidPage()">Open GCLID page</button>
                 <button mat-raised-button (click)="doChangeVideoSource($event)">{{toggleVideoText}}</button>
                 <button mat-raised-button (click)="stopMusic()">Stop music</button> -->
-                <i class="fa fa-spinner loader" aria-hidden="true" [hidden]='!showLoader'></i>
+                
             </div>
         </div>
     </div>
@@ -83,30 +85,10 @@
 
 <mat-card style="height: 645px; padding: 5px;">
     <mat-card-content>
-        <mat-tab-group class="demo-tab-group">
-            <!-- <mat-tab label="Tab 1">
-                <div class="col-md-7 gridContainer">
-                    <mat-table #table [dataSource]="mainUrlsDatasource">
-                        <ng-container matColumnDef="name">
-                            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                            <mat-cell *matCellDef="let element"> {{element}} </mat-cell>
-                        </ng-container>
-                        <ng-container matColumnDef="checkButton">
-                            <mat-header-cell *matHeaderCellDef> Button </mat-header-cell>
-                            <mat-cell *matCellDef="let element">
-                                <button mat-raised-button color="primary" (click)="addToFinalGrid(element)">Add</button>
-                            </mat-cell>
-                        </ng-container>
-
-                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-
-                    </mat-table>
-                </div>
-            </mat-tab> -->
+        <mat-tab-group class="demo-tab-group" #matTab>
             <mat-tab label="Tab 1">
                 <div style="display: flex">
-                    <div class="col-md-6">
+                    <div class="col-md-6 areaPadding">
                         <table class="table gridContainer">
                             <div class="card-header" [hidden]="mainUrlsDatasource.length > 0">
                                 Main Urls
@@ -121,7 +103,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-5 areaPadding">
                         <table class="table gridContainer">
                             <div class="card-header" [hidden]="mainUrlsDatasource.length > 0">
                                 Secondary Urls
@@ -143,9 +125,9 @@
                     </div>
                 </div>
             </mat-tab>
-            <mat-tab label="Tab 2" #finishTab>
-                    <div class="row">
-                        <div class="col-sm-6">
+            <mat-tab label="Tab 2">
+                    <div style="display: flex">
+                        <div class="col-sm-6 areaPadding">
                             <div class="card mb-3">
                                 <div class="card-header">
                                     <span>Start time:</span>
@@ -157,7 +139,7 @@
                             </div>
                         </div>
                     
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 areaPadding">
                             <div class="card mb-3">
                                 <div class="card-header">
                                     <span>End time:</span>
