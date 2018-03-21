@@ -44,6 +44,10 @@ export class SeoSiteComponent implements OnInit {
   showLoaderError: boolean = false;
   failIterator: number = 0;
   prepearedModel: TransferModel;
+  displayedColumns = ['name', 'checkButton'];
+  
+  mainUrlsDatasource = [];
+  secondaryUrlsDatasource = []; 
 
   @ViewChild('webFrame') webFrame;
   @ViewChild('finishSiteUrlsHtml') finishSiteUrlsHtml;
@@ -167,6 +171,8 @@ export class SeoSiteComponent implements OnInit {
     this.sitesLeft = 0;
     this.mainUrlsDatasource = [];
     this.secondaryUrlsDatasource = [];
+    this.startHtmlString = '';
+    this.isReadyToStart = false;
   }
 
   autoCloseAdvertise(event) {
@@ -231,7 +237,9 @@ export class SeoSiteComponent implements OnInit {
 
   addToFinalGrid(element) {
     this.sitesLeft-=1;
+    this.showLoader = true;
     this.service.isLinkActive(element).subscribe(result => {
+      this.showLoader = false;
       this.secondaryUrlsDatasource.push(element);      
     })    
   }
@@ -246,8 +254,7 @@ export class SeoSiteComponent implements OnInit {
     this.sitesLeft = Number.parseInt(this.countUrls);
   }
 
-  displayedColumns = ['name', 'checkButton'];
-  
-  mainUrlsDatasource = [];
-  secondaryUrlsDatasource = [];
+  refreshStartResultArea() {
+    this.nextStepWithUrls();
+  }  
 }

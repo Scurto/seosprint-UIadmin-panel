@@ -60,7 +60,6 @@ export class SeoYoutubeComponent implements OnInit {
 
   @ViewChild('finishYoutubeUrlsHtml') finishYoutubeUrlsHtml;
   @ViewChild('finishAdvertiseHtml') finishAdvertiseHtml;
-  @ViewChild('descriptioHtml') descriptioHtml;
   @ViewChild('startTime') startTime;
   @ViewChild('endTime') endTime;
   @ViewChild('endIcon') endIcon;
@@ -204,8 +203,7 @@ export class SeoYoutubeComponent implements OnInit {
       videoFreeze: this.videoFreeze,
       finishYoutubeUrlsHtml: this.finishYoutubeUrlsHtml,
       finishAdvertiseHtml: this.finishAdvertiseHtml,
-      player: this.player,
-      descriptioHtml: this.descriptioHtml,
+      player: this.player,      
       oneTimeChanelLink: this.oneTimeChanelLink,
       startTime: this.startTime,
       endTime: this.endTime,
@@ -215,15 +213,14 @@ export class SeoYoutubeComponent implements OnInit {
     if (this.strategy == 'classic') {
       classicStrategy(this.service, this.selectedTaskId, this.prepearedModel, this.audio, strategyModel);
     } else if (this.strategy == 'rpte') {
-      randomPositionTextEndStrategy(this.service, this.selectedTaskId, this.prepearedModel, this.finishYoutubeUrlsHtml, this.player, this.reklamaFreeze, this.videoFreeze, this.descriptioHtml, this.audio, this.oneTimeChanelLink);
+      randomPositionTextEndStrategy(this.service, this.selectedTaskId, this.prepearedModel, this.finishYoutubeUrlsHtml, this.player, this.reklamaFreeze, this.videoFreeze, this.audio, this.oneTimeChanelLink);
     }
 
-    async function randomPositionTextEndStrategy(service: YoutubeService, selectedTaskId, prepearedModel, finishHtml, player, reklamaFreeze, videoFreeze, descriptioHtml, audio, oneTimeChanelLink) {
+    async function randomPositionTextEndStrategy(service: YoutubeService, selectedTaskId, prepearedModel, finishHtml, player, reklamaFreeze, videoFreeze, audio, oneTimeChanelLink) {
       if (service == null ||
         (selectedTaskId == null && oneTimeChanelLink == null) ||
         prepearedModel == null ||
         finishHtml == null ||
-        descriptioHtml == null ||
         player == null ||
         audio == null ||
         reklamaFreeze == null || videoFreeze == null) {
@@ -239,7 +236,7 @@ export class SeoYoutubeComponent implements OnInit {
 
       let descriptionText = '===START AT===' + '<br>';
       descriptionText = descriptionText + new Date().toString();
-      descriptioHtml.nativeElement.innerHTML = descriptionText + '<br>' + '<br>';
+      
       player.mute();
       let YOUTUBE: string = 'https://www.youtube.com/watch?v=';
 
@@ -284,7 +281,7 @@ export class SeoYoutubeComponent implements OnInit {
         });
 
       descriptionText = descriptionText + '<br>' + '===FINISH AT===' + '<br>' + new Date().toString() + '<br>';
-      descriptioHtml.nativeElement.innerHTML = descriptionText;
+      
       audio.play();
     }
 
@@ -295,8 +292,7 @@ export class SeoYoutubeComponent implements OnInit {
         (selectedTaskId == null && strategyModel.oneTimeChanelLink == null) ||
         prepearedModel == null ||
         strategyModel.finishAdvertiseHtml == null ||
-        strategyModel.finishYoutubeUrlsHtml == null ||
-        strategyModel.descriptioHtml == null ||
+        strategyModel.finishYoutubeUrlsHtml == null ||        
         strategyModel.player == null ||
         audio == null ||
         strategyModel.reklamaFreeze == null || strategyModel.videoFreeze == null) {

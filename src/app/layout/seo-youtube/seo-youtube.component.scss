@@ -2,39 +2,11 @@ body {
     margin: 0;
   }
   
-  .upPanel {
-    height: 270px;
-    display: flex;
-  }
-  
-  .downPanel {
-    height: 70vh;
-    display: flex;
-  }
-  
-  .left {
-    width: 69.5%;
-    height: 100%;
-    display: inline-flex;
-    //background: black;
-  }
-  
-  .right {
-    //background-color: white;
-    height: 100%;
-    width: 30%;
-    display: inline-flex;
-  }
-  
-  .resultArea {
+ .resultArea {
     font-size: 11px;
     height: 610px;
   }
-  
-  .resultRightArea {
 
-  }
-  
   .fieldsArea85Width {
     width: 85px;
   }

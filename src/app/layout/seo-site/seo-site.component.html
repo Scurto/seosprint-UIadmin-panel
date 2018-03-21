@@ -57,13 +57,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <button mat-raised-button color="primary" (click)="clear()">Clear</button>
-                <!-- <button mat-raised-button color="primary" (click)="getSiteUrls()">GetSiteUrls</button> -->
-                <!-- <button mat-raised-button color="primary" (click)="testJms()">Test JMS</button>
-                <button mat-raised-button color="warn" (click)="openGclidPage()">Open GCLID page</button>
-                <button mat-raised-button (click)="doChangeVideoSource($event)">{{toggleVideoText}}</button>
-                <button mat-raised-button (click)="stopMusic()">Stop music</button> -->
-                
+                <button mat-raised-button color="primary" (click)="clear()">Clear</button>               
             </div>
         </div>
     </div>
@@ -132,6 +126,7 @@
                                 <div class="card-header">
                                     <span>Start time:</span>
                                     <span #startTime></span>
+                                    <i class="fa fa-refresh endTimeIcon" (click)="refreshStartResultArea()"></i>
                                 </div>
                                 <div class="card-body resultArea">
                                     <p [innerHTML]="startHtmlString"></p>
@@ -155,6 +150,5 @@
                     </div>
             </mat-tab>
         </mat-tab-group>
-
     </mat-card-content>
 </mat-card>

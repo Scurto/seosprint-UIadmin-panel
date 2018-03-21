@@ -17,7 +17,7 @@
 .gridContainer {
     overflow: auto;
     max-height: 585px;
-    display: block
+    display: block;
 }
 
 .table td {
@@ -56,4 +56,10 @@
 @keyframes spin {
     0% {transform: rotate(0deg); }
     100% {transform: rotate(360deg); }
+}
+
+tr {
+    td {
+        word-break: break-all;
+    }
 }

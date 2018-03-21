@@ -50,8 +50,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <button mat-raised-button color="primary" (click)="clear()">Clear</button>
-                <button mat-raised-button color="primary" (click)="testJms()">Test JMS</button>
+                <button mat-raised-button color="primary" (click)="clear()">Clear</button>                
                 <button mat-raised-button color="warn" (click)="openGclidPage()">Open GCLID page</button>
                 <button mat-raised-button (click)="doChangeVideoSource($event)">{{toggleVideoText}}</button>
                 <button mat-raised-button (click)="stopMusic()">Stop music</button>
@@ -99,23 +98,6 @@
                 <p #finishYoutubeUrlsHtml [innerHTML]="finishYoutubeUrls"></p>
                 <p #finishAdvertiseHtml [innerHTML]="finishAdvertiseUrls"></p>
             </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="downPanel">
-    <!-- <div class="left">
-        <div class="resultLeftArea">
-            <p [innerHTML]="startHtmlString" class="resultLeftAreaParagraph"></p>
-        </div>
-        <div class="resultRightArea">
-            <p #finishHtml [innerHTML]="finishHtmlString" class="resultRightAreaParagraph"></p>
-        </div>
-    </div> -->
-    <div class="right">
-        <div class="gClidContainer">
-            <p #descriptioHtml [innerHTML]="descriptionContainerString" class="resultRightAreaParagraph"></p>
         </div>
     </div>
 </div>
