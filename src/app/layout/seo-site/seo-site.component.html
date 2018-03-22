@@ -49,7 +49,7 @@
             <div class="col-md-12">
                 <div id="isOneTimeTaskFlagId" [ngbCollapse]="!isOneTimeTask">
                     <mat-input-container style="width: 595px">
-                        <input matInput placeholder="One Time Chanel Link" value="" [ngModel]="oneTimeChanelLink">
+                        <input matInput placeholder="One Time Chanel Link" value="" [ngModel]="oneTimeSitelLink">
                     </mat-input-container>
                 </div>
             </div>
@@ -91,7 +91,7 @@
                                 <tr *ngFor="let rowUrl of mainUrlsDatasource; let i = index">
                                     <td>{{rowUrl}}</td>
                                     <td>
-                                        <button mat-raised-button color="primary" (click)="addToFinalGrid(rowUrl)" [disabled]="secondaryUrlsDatasource.indexOf(rowUrl) != -1 || sitesLeft == 0">Add</button>
+                                       <button mat-raised-button color="primary" (click)="addToFinalGrid(rowUrl)" [disabled]="prepearedFinalList.indexOf(rowUrl) != -1 || sitesLeft == 0">Add</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -103,7 +103,7 @@
                                 Secondary Urls
                             </div>
                             <tbody>
-                                <tr *ngFor="let rowUrl of secondaryUrlsDatasource; let i = index">
+                                <tr *ngFor="let rowUrl of prepearedFinalList; let i = index">
                                     <td>{{rowUrl}}</td>
                                     <td>
                                         <button mat-raised-button color="primary" (click)="removeFromSecondaryGrid(rowUrl)">Remove</button>
@@ -115,7 +115,7 @@
                     <div class="col-md-1">
                             Sites left: {{sitesLeft}}
                             <button mat-raised-button color="primary" (click)="removeAllFromSecondary()">Remove All</button>
-                            <button mat-raised-button color="primary" (click)="nextStepWithUrls()">Add All</button>
+                            <button mat-raised-button color="primary" class="addToPrepearedGridBtn" (click)="nextStepWithUrls()" [disabled]="isNextStepAvailable()">Add All</button>
                     </div>
                 </div>
             </mat-tab>

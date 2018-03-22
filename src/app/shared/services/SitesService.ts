@@ -51,4 +51,19 @@ export class SitesService {
       
         return  this._http.post(this.HTTPS_URL + "/website/isLinkActive", json, {headers: this.headers, responseType: 'text'});
     }
+
+    updateTask(modelTaskId: string, modelLastAdvertise: string) {
+        var json = JSON.stringify({
+          taskId: modelTaskId,
+          lastAdvertise: modelLastAdvertise
+        });
+    
+        return  this._http.post(this.HTTPS_URL + "/website/updateTask", json, {headers: this.headers}).map(res => {
+          console.log("update result->", res);
+        });
+      }
+
+    getGClid() {    
+        return this._http.get(this.HTTPS_URL + "/gclid/getGClid", {responseType: 'text'})
+      }
 }
