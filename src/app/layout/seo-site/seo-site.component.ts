@@ -182,7 +182,7 @@ export class SeoSiteComponent implements OnInit {
       // reklamaFreeze: this.reklamaFreeze,
       // videoFreeze: this.videoFreeze,
       // finishYoutubeUrlsHtml: this.finishYoutubeUrlsHtml,
-      // finishAdvertiseHtml: this.finishAdvertiseHtml,            
+      // finishAdvertiseHtml: this.finishAdvertiseHtml,
       // oneTimeChanelLink: this.oneTimeChanelLink,
       // startTime: this.startTime,
       // endTime: this.endTime,
@@ -200,7 +200,7 @@ export class SeoSiteComponent implements OnInit {
         (strategyModel.selectedTaskId == null && strategyModel.oneTimeSitelLink == null)
         || strategyModel.prepearedModel == null
         // strategyModel.finishAdvertiseHtml == null ||
-        // strategyModel.finishYoutubeUrlsHtml == null ||        
+        // strategyModel.finishYoutubeUrlsHtml == null ||
         // strategyModel.player == null ||
         // audio == null ||
         // strategyModel.reklamaFreeze == null || strategyModel.videoFreeze == null
@@ -209,17 +209,17 @@ export class SeoSiteComponent implements OnInit {
         return;
       }
 
-      // let startDelay: number = 35000;
-      // let siteDelay: number = strategyModel.siteFreeze * 1000;
-      // let primaryAdveriseDelay: number = strategyModel.advertiseFreeze * 1000;
-      // let secondaryAdvertiseDelay: number = strategyModel.advertiseFreeze * 1000;
-      // let finishDelay: number = 35000;
+      let startDelay: number = 35000;
+      let siteDelay: number = strategyModel.siteFreeze * 1000;
+      let primaryAdveriseDelay: number = strategyModel.advertiseFreeze * 1000;
+      let secondaryAdvertiseDelay: number = strategyModel.advertiseFreeze * 1000;
+      let finishDelay: number = 35000;
 
-      let startDelay: number = 0;
-      let siteDelay: number = 1 * 1000;
-      let primaryAdveriseDelay: number = 1 * 1000;
-      let secondaryAdvertiseDelay: number = 1 * 1000;
-      let finishDelay: number = 0;
+      // let startDelay: number = 0;
+      // let siteDelay: number = 1 * 1000;
+      // let primaryAdveriseDelay: number = 1 * 1000;
+      // let secondaryAdvertiseDelay: number = 1 * 1000;
+      // let finishDelay: number = 0;
 
       addTimer();
 
@@ -332,7 +332,7 @@ export class SeoSiteComponent implements OnInit {
   nextStepWithUrls() {
     this.startHtmlString = '';
     this.matTab.selectedIndex = 1;
-    
+
     this.prepearedFinalList.sort(compareRandom); //mix array
 
     this.getPrepareText()
