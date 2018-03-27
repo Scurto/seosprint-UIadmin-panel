@@ -199,6 +199,9 @@ export class SeoYoutubeComponent implements OnInit {
     this.audio.load();
 
     let strategyModel = {
+      service: this.service,
+      selectedTaskId: this.selectedTaskId,
+      prepearedModel: this.prepearedModel,
       reklamaFreeze: this.reklamaFreeze,
       videoFreeze: this.videoFreeze,
       finishYoutubeUrlsHtml: this.finishYoutubeUrlsHtml,
@@ -207,11 +210,12 @@ export class SeoYoutubeComponent implements OnInit {
       oneTimeChanelLink: this.oneTimeChanelLink,
       startTime: this.startTime,
       endTime: this.endTime,
-      endIcon: this.endIcon
+      endIcon: this.endIcon,
+      audio: this.audio
     }
 
     if (this.strategy == 'classic') {
-      classicStrategy(this.service, this.selectedTaskId, this.prepearedModel, this.audio, strategyModel);
+      classicStrategy(strategyModel);
     } else if (this.strategy == 'rpte') {
       randomPositionTextEndStrategy(this.service, this.selectedTaskId, this.prepearedModel, this.finishYoutubeUrlsHtml, this.player, this.reklamaFreeze, this.videoFreeze, this.audio, this.oneTimeChanelLink);
     }
@@ -287,14 +291,14 @@ export class SeoYoutubeComponent implements OnInit {
 
 
 
-    async function classicStrategy(service: YoutubeService, selectedTaskId, prepearedModel, audio, strategyModel) {
-      if (service == null ||
-        (selectedTaskId == null && strategyModel.oneTimeChanelLink == null) ||
-        prepearedModel == null ||
+    async function classicStrategy(strategyModel) {
+      if (strategyModel.service == null ||
+        (strategyModel.selectedTaskId == null && strategyModel.oneTimeChanelLink == null) ||
+        strategyModel.prepearedModel == null ||
         strategyModel.finishAdvertiseHtml == null ||
         strategyModel.finishYoutubeUrlsHtml == null ||        
         strategyModel.player == null ||
-        audio == null ||
+        strategyModel.audio == null ||
         strategyModel.reklamaFreeze == null || strategyModel.videoFreeze == null) {
         console.log("AHTUNG !!!!", strategyModel);
         return;
@@ -320,33 +324,33 @@ export class SeoYoutubeComponent implements OnInit {
       await delay(startDelay);
 
 
-      var youtubeUrlsText = 'https://www.youtube.com/' + prepearedModel.transferChanelId + '<br>';
+      var youtubeUrlsText = 'https://www.youtube.com/' + strategyModel.prepearedModel.transferChanelId + '<br>';
       var advertiseText = '';
       youtubeUrlsText = youtubeUrlsText + '<br>';
       advertiseText = advertiseText + '<br>';      
-      for (let i = 0; i < prepearedModel.transferVideoModel.length; i++) {
-        youtubeUrlsText = youtubeUrlsText + YOUTUBE + prepearedModel.transferVideoModel[i] + '<br>';
-        strategyModel.player.loadVideoById(prepearedModel.transferVideoModel[i]);
+      for (let i = 0; i < strategyModel.prepearedModel.transferVideoModel.length; i++) {
+        youtubeUrlsText = youtubeUrlsText + YOUTUBE + strategyModel.prepearedModel.transferVideoModel[i] + '<br>';
+        strategyModel.player.loadVideoById(strategyModel.prepearedModel.transferVideoModel[i]);
         strategyModel.player.playVideo();
         strategyModel.finishYoutubeUrlsHtml.nativeElement.innerHTML = youtubeUrlsText;
         await delay(videoDelay);
-        if (prepearedModel.transferReklamaModel.length > 0) {
+        if (strategyModel.prepearedModel.transferReklamaModel.length > 0) {
           window.open(googleLink, "_blank");
           await delay(3000);
-          service.getGClid().toPromise().then(result => {
+          strategyModel.service.getGClid().toPromise().then(result => {
             console.log('resilt gclid', result)
-            advertiseText = advertiseText + prepearedModel.transferReklamaModel[0].gclidLine + result + '<br>';
+            advertiseText = advertiseText + strategyModel.prepearedModel.transferReklamaModel[0].gclidLine + result + '<br>';
             strategyModel.finishAdvertiseHtml.nativeElement.innerHTML = advertiseText;
           });
           await delay(primaryReklamaDelay);
 
-          for (let rekText of prepearedModel.transferReklamaModel[0].textLine) {
+          for (let rekText of strategyModel.prepearedModel.transferReklamaModel[0].textLine) {
             advertiseText = advertiseText + rekText + '<br>';
             strategyModel.finishAdvertiseHtml.nativeElement.innerHTML = advertiseText;
             await delay(secondaryReklamaDelay);
           }
 
-          prepearedModel.transferReklamaModel.splice(0, 1);
+          strategyModel.prepearedModel.transferReklamaModel.splice(0, 1);
           strategyModel.finishAdvertiseHtml.nativeElement.innerHTML = advertiseText;
         }
         advertiseText = advertiseText + '<br>';
@@ -355,11 +359,11 @@ export class SeoYoutubeComponent implements OnInit {
 
       await delay(finishDelay);
       strategyModel.endIcon.nativeElement.style.color = 'forestgreen'; // change icon color
-      service.updateTask(selectedTaskId, prepearedModel.transferReklamaKeys)
+      strategyModel.service.updateTask(strategyModel.selectedTaskId, strategyModel.prepearedModel.transferReklamaKeys)
         .toPromise().then(result => {
           console.log('task completed');
         });
-      audio.play();
+        strategyModel.audio.play();
 
       function addTimer() {
         let startTime = new Date();
@@ -368,16 +372,16 @@ export class SeoYoutubeComponent implements OnInit {
         let timeDelay = startDelay;        
         let prepearedModelHelp: TransferModel = new TransferModel();
         prepearedModelHelp.transferReklamaModel = [];
-        for (let model of prepearedModel.transferReklamaModel) {
+        for (let model of strategyModel.prepearedModel.transferReklamaModel) {
           prepearedModelHelp.transferReklamaModel.push(model);
         }
 
-        for (let i = 0; i < prepearedModel.transferVideoModel.length; i++) {
+        for (let i = 0; i < strategyModel.prepearedModel.transferVideoModel.length; i++) {
           timeDelay = timeDelay + videoDelay;
           if (prepearedModelHelp.transferReklamaModel.length > 0) {
             timeDelay = timeDelay + 3000;
             timeDelay = timeDelay + primaryReklamaDelay;
-            for (let rekText of prepearedModel.transferReklamaModel[0].textLine) {
+            for (let rekText of strategyModel.prepearedModel.transferReklamaModel[0].textLine) {
               timeDelay = timeDelay + secondaryReklamaDelay;
             }
             prepearedModelHelp.transferReklamaModel.splice(0, 1);
