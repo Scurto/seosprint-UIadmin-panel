@@ -12,6 +12,7 @@ import { TransferReklamaModel } from '../../shared/TransferReklamaModel';
 import { YoutubeService } from '../../shared/services/YoutubeService';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SharedService } from '../../shared/services/SharedService';
+import { GclidCheckModel } from '../../shared/GclidCheckModel';
 
 @Component({
   moduleId: module.id,
@@ -327,7 +328,9 @@ export class SeoYoutubeComponent implements OnInit {
       var youtubeUrlsText = 'https://www.youtube.com/' + strategyModel.prepearedModel.transferChanelId + '<br>';
       var advertiseText = '';
       youtubeUrlsText = youtubeUrlsText + '<br>';
-      advertiseText = advertiseText + '<br>';      
+      advertiseText = advertiseText + '<br>'; 
+      var gclidList: GclidCheckModel[] = [];   
+        // create map for Gclid
       for (let i = 0; i < strategyModel.prepearedModel.transferVideoModel.length; i++) {
         youtubeUrlsText = youtubeUrlsText + YOUTUBE + strategyModel.prepearedModel.transferVideoModel[i] + '<br>';
         strategyModel.player.loadVideoById(strategyModel.prepearedModel.transferVideoModel[i]);
@@ -338,6 +341,15 @@ export class SeoYoutubeComponent implements OnInit {
           window.open(googleLink, "_blank");
           await delay(3000);
           strategyModel.service.getGClid().toPromise().then(result => {
+            // add result in map
+            // autogenerate unique id by index like (gclidId_+'index')
+            // add span instead 'result'
+            let checkModel:GclidCheckModel = new GclidCheckModel();
+            checkModel.id = 'gclidId_' + i;
+            checkModel.gclidLink = result;
+            checkModel.time = new Date();
+            gclidList.push(checkModel)
+
             console.log('resilt gclid', result)
             advertiseText = advertiseText + strategyModel.prepearedModel.transferReklamaModel[0].gclidLine + result + '<br>';
             strategyModel.finishAdvertiseHtml.nativeElement.innerHTML = advertiseText;
@@ -359,6 +371,8 @@ export class SeoYoutubeComponent implements OnInit {
 
       await delay(finishDelay);
       strategyModel.endIcon.nativeElement.style.color = 'forestgreen'; // change icon color
+      // check gclid map for null link
+      console.log('gclidList', gclidList);
       strategyModel.service.updateTask(strategyModel.selectedTaskId, strategyModel.prepearedModel.transferReklamaKeys)
         .toPromise().then(result => {
           console.log('task completed');
