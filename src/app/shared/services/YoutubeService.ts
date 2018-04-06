@@ -8,6 +8,7 @@ import { YoutubeTask } from "../YoutubeTask";
 import { TransferModel } from "../TransferModel";
 import { SharedService } from "./SharedService";
 import { TaskMock } from "../mock/TaskMock";
+import { GclidCheckModel } from "../GclidCheckModel";
 
 
 /**
@@ -167,4 +168,17 @@ export class YoutubeService {
   getGClid() {    
     return this._http.get(this.HTTPS_URL + "/gclid/getGClid", {responseType: 'text'})
   }  
+
+  reGetGclid(gclidList: GclidCheckModel[], gclidTime: Date) {
+    console.log('gclidTime', gclidTime.getTime())
+    var json = JSON.stringify({
+      gclidArray: gclidList,
+      time: gclidTime.getTime()
+    });
+
+    // var headers = new Headers();
+    // headers.append('Content-Type', 'application/json');
+
+    return  this._http.post(this.HTTPS_URL + "/gclid/reGetGclid", json, {headers: this.headers, responseType: 'text'}).map(res => res);
+  }
 }

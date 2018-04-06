@@ -207,7 +207,7 @@ export class SeoYoutubeComponent implements OnInit {
       videoFreeze: this.videoFreeze,
       finishYoutubeUrlsHtml: this.finishYoutubeUrlsHtml,
       finishAdvertiseHtml: this.finishAdvertiseHtml,
-      player: this.player,      
+      player: this.player,
       oneTimeChanelLink: this.oneTimeChanelLink,
       startTime: this.startTime,
       endTime: this.endTime,
@@ -241,7 +241,7 @@ export class SeoYoutubeComponent implements OnInit {
 
       let descriptionText = '===START AT===' + '<br>';
       descriptionText = descriptionText + new Date().toString();
-      
+
       player.mute();
       let YOUTUBE: string = 'https://www.youtube.com/watch?v=';
 
@@ -286,7 +286,7 @@ export class SeoYoutubeComponent implements OnInit {
         });
 
       descriptionText = descriptionText + '<br>' + '===FINISH AT===' + '<br>' + new Date().toString() + '<br>';
-      
+
       audio.play();
     }
 
@@ -297,7 +297,7 @@ export class SeoYoutubeComponent implements OnInit {
         (strategyModel.selectedTaskId == null && strategyModel.oneTimeChanelLink == null) ||
         strategyModel.prepearedModel == null ||
         strategyModel.finishAdvertiseHtml == null ||
-        strategyModel.finishYoutubeUrlsHtml == null ||        
+        strategyModel.finishYoutubeUrlsHtml == null ||
         strategyModel.player == null ||
         strategyModel.audio == null ||
         strategyModel.reklamaFreeze == null || strategyModel.videoFreeze == null) {
@@ -328,9 +328,9 @@ export class SeoYoutubeComponent implements OnInit {
       var youtubeUrlsText = 'https://www.youtube.com/' + strategyModel.prepearedModel.transferChanelId + '<br>';
       var advertiseText = '';
       youtubeUrlsText = youtubeUrlsText + '<br>';
-      advertiseText = advertiseText + '<br>'; 
-      var gclidList: GclidCheckModel[] = [];   
-        // create map for Gclid
+      advertiseText = advertiseText + '<br>';
+      var gclidList: GclidCheckModel[] = [];
+
       for (let i = 0; i < strategyModel.prepearedModel.transferVideoModel.length; i++) {
         youtubeUrlsText = youtubeUrlsText + YOUTUBE + strategyModel.prepearedModel.transferVideoModel[i] + '<br>';
         strategyModel.player.loadVideoById(strategyModel.prepearedModel.transferVideoModel[i]);
@@ -341,17 +341,14 @@ export class SeoYoutubeComponent implements OnInit {
           window.open(googleLink, "_blank");
           await delay(3000);
           strategyModel.service.getGClid().toPromise().then(result => {
-            // add result in map
-            // autogenerate unique id by index like (gclidId_+'index')
-            // add span instead 'result'
-            let checkModel:GclidCheckModel = new GclidCheckModel();
+            let checkModel: GclidCheckModel = new GclidCheckModel();
             checkModel.id = 'gclidId_' + i;
             checkModel.gclidLink = result;
             checkModel.time = new Date();
             gclidList.push(checkModel)
 
             console.log('resilt gclid', result)
-            advertiseText = advertiseText + strategyModel.prepearedModel.transferReklamaModel[0].gclidLine + result + '<br>';
+            advertiseText = advertiseText + strategyModel.prepearedModel.transferReklamaModel[0].gclidLine + '<span id=' + checkModel.id + '>' + result + '</span>' + '<br>';
             strategyModel.finishAdvertiseHtml.nativeElement.innerHTML = advertiseText;
           });
           await delay(primaryReklamaDelay);
@@ -371,19 +368,27 @@ export class SeoYoutubeComponent implements OnInit {
 
       await delay(finishDelay);
       strategyModel.endIcon.nativeElement.style.color = 'forestgreen'; // change icon color
-      // check gclid map for null link
-      console.log('gclidList', gclidList);
+
       strategyModel.service.updateTask(strategyModel.selectedTaskId, strategyModel.prepearedModel.transferReklamaKeys)
         .toPromise().then(result => {
           console.log('task completed');
         });
-        strategyModel.audio.play();
+
+      strategyModel.audio.play();
+
+      for (let i = 0; i < gclidList.length; i++) {
+        if (gclidList[i].gclidLink == null || gclidList[i].gclidLink == '') {
+          strategyModel.service.reGetGclid(gclidList, gclidList[i].time).toPromise().then(result => {
+            document.getElementById(gclidList[i].id).innerText = result
+          });
+        }
+      }
 
       function addTimer() {
         let startTime = new Date();
         strategyModel.startTime.nativeElement.innerHTML = startTime.getHours() + ':' + startTime.getMinutes() + ':' + startTime.getSeconds(); // set start time
 
-        let timeDelay = startDelay;        
+        let timeDelay = startDelay;
         let prepearedModelHelp: TransferModel = new TransferModel();
         prepearedModelHelp.transferReklamaModel = [];
         for (let model of strategyModel.prepearedModel.transferReklamaModel) {
