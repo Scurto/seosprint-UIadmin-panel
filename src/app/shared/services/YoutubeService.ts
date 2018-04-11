@@ -170,14 +170,10 @@ export class YoutubeService {
   }  
 
   reGetGclid(gclidList: GclidCheckModel[], gclidTime: Date) {
-    console.log('gclidTime', gclidTime.getTime())
     var json = JSON.stringify({
       gclidArray: gclidList,
       time: gclidTime.getTime()
     });
-
-    // var headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
 
     return  this._http.post(this.HTTPS_URL + "/gclid/reGetGclid", json, {headers: this.headers, responseType: 'text'}).map(res => res);
   }

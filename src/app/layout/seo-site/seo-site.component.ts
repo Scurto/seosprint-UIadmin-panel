@@ -11,6 +11,7 @@ import 'rxjs/add/operator/toPromise';
 import { Subscription } from "rxjs";
 import { routerTransition } from '../../router.animations';
 import { TransferModel } from '../../shared/TransferModel';
+import { GclidCheckModel } from '../../shared/GclidCheckModel';
 
 @Component({
   selector: 'app-seo-site',
@@ -230,6 +231,7 @@ export class SeoSiteComponent implements OnInit {
       var advertiseText = '';
       websiteUrlsText += '<br>';
       advertiseText += '<br>';
+      var gclidList: GclidCheckModel[] = [];
 
       for (let i = 0; i < strategyModel.prepearedFinalList.length; i++) {
         websiteUrlsText += strategyModel.prepearedFinalList[i] + '<br>';
@@ -241,6 +243,12 @@ export class SeoSiteComponent implements OnInit {
           window.open(googleLink, "_blank");
           await delay(3000);
           strategyModel.service.getGClid().toPromise().then(result => {
+            let checkModel: GclidCheckModel = new GclidCheckModel();
+            checkModel.id = 'gclidId_' + i;
+            checkModel.gclidLink = result;
+            checkModel.time = new Date();
+            gclidList.push(checkModel)
+
             console.log('resilt gclid', result)
             advertiseText = advertiseText + strategyModel.prepearedModel.transferReklamaModel[0].gclidLine + result + '<br>';
             strategyModel.finishAdvertiseHtml.nativeElement.innerHTML = advertiseText;
@@ -268,6 +276,14 @@ export class SeoSiteComponent implements OnInit {
       strategyModel.service.updateTask(strategyModel.selectedTaskId, strategyModel.prepearedModel.transferReklamaKeys).toPromise().then(result => {
         console.log('task completed');
       });
+
+      for (let i = 0; i < gclidList.length; i++) {
+        if (gclidList[i].gclidLink == null || gclidList[i].gclidLink == '') {
+          strategyModel.service.reGetGclid(gclidList, gclidList[i].time).toPromise().then(result => {
+            document.getElementById(gclidList[i].id).innerText = result
+          });
+        }
+      }
 
       function addTimer() {
         let startTime = new Date();
