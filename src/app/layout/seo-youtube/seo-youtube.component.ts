@@ -52,7 +52,7 @@ export class SeoYoutubeComponent implements OnInit {
   strategy: string = 'classic';
   localVideoId: string = '';
   showBanner: boolean = false;
-  autoCloseAdvertiseFlag: boolean = true;
+  autoCloseAdvertiseFlag: boolean = false;
   private player;
   private ytEvent;
   private audio;

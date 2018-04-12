@@ -5,9 +5,9 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 export class SharedService {
 
     HTTPS_URL: string = 'https://localhost:8443';
-    headers: HttpHeaders = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'}); 
+    headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
 
-    constructor(private _http: HttpClient) {}
+    constructor(private _http: HttpClient) { }
 
     _mockDataFlag: boolean;
 
@@ -21,12 +21,12 @@ export class SharedService {
 
     autoCloseAdvertise(autoClose: string) {
         var json = JSON.stringify({
-          flag: autoClose
+            flag: autoClose
         });
-    
+
         // var headers = new Headers();
         // headers.append('Content-Type', 'application/json');
-    
-        return  this._http.post(this.HTTPS_URL + "/gclid/setAutoCloseAdvertise", json, {headers: this.headers, responseType: 'text'}).map(res => res);
-      }
+
+        return this._http.post(this.HTTPS_URL + "/gclid/setAutoCloseAdvertise", json, { headers: this.headers, responseType: 'text' }).map(res => res);
+    }
 }

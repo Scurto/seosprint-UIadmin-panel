@@ -76,4 +76,12 @@ export class SitesService {
 
         return  this._http.post(this.HTTPS_URL + "/gclid/reGetGclid", json, {headers: this.headers, responseType: 'text'}).map(res => res);
     }
+
+    isUseProxy(useProxy: string) {
+        var json = JSON.stringify({
+            flag: useProxy
+        });
+        
+        return this._http.post(this.HTTPS_URL + "/website/setUseProxy", json, { headers: this.headers, responseType: 'text' }).map(res => res);
+    }
 }

@@ -59,7 +59,8 @@ export class SeoSiteComponent implements OnInit {
   @ViewChild('endIcon') endIcon;
   @ViewChild('spiner') spiner;
 
-  autoCloseAdvertiseFlag: boolean = true;
+  autoCloseAdvertiseFlag: boolean = false;
+  useProxyFlag: boolean = false;
 
   constructor(private service: SitesService, private sharedService: SharedService) {
     this.taskCtrl = new FormControl();
@@ -342,6 +343,18 @@ export class SeoSiteComponent implements OnInit {
       },
       // error => alert(error),
       () => console.log("request completed")
+    );
+  }
+
+  onUseProxy(event) {    
+    let useProxy: string = event.checked ? "" : "no";
+    console.log('event', useProxy)
+    this.service.isUseProxy(useProxy).subscribe(
+      data => {
+        console.log("isUseProxy -> ", data);
+      },
+      // error => alert(error),
+      () => console.log("request completed") 
     );
   }
 
