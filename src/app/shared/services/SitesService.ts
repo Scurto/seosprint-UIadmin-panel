@@ -5,14 +5,15 @@ import { Observable } from "rxjs/Observable";
 import { SitesTask } from "../SitesTask";
 import { BehaviorSubject } from "rxjs";
 import { TransferModel } from "../TransferModel";
+import {GclidCheckModel} from "../GclidCheckModel";
 
 @Injectable()
 export class SitesService {
-    
+
     constructor(private _http: HttpClient, private sharedService: SharedService) {}
 
-    headers: HttpHeaders = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});  
-    
+    headers: HttpHeaders = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
+
     HTTPS_URL: string = 'https://localhost:8443';
 
     getListSitesTasksId(): Observable<SitesTask[]> {
@@ -22,11 +23,11 @@ export class SitesService {
           return  this._http.post<SitesTask[]>(this.HTTPS_URL + "/website/listAllSitesModel", json)
         } else {
         //   let mockTaskList = new TaskMock().getListMockTasks();
-        //   return new BehaviorSubject<SitesTask[]>(mockTaskList).asObservable();      
-        }    
+        //   return new BehaviorSubject<SitesTask[]>(mockTaskList).asObservable();
+        }
     }
 
-    getSiteUrls(url: string): Observable<String[]> {        
+    getSiteUrls(url: string): Observable<String[]> {
         var json = JSON.stringify({
             websiteUrl: url
         });
@@ -39,8 +40,8 @@ export class SitesService {
           countOfAdvertise: countAdvertise,
           countOfMove: countMove,
           countOfUrls: countUrls
-        });    
-    
+        });
+
         return this._http.post<TransferModel>(this.HTTPS_URL + "/website/advertiseListForSiteShow", json, {headers: this.headers});
     }
 
@@ -48,7 +49,7 @@ export class SitesService {
         var json = JSON.stringify({
             mainUrl: url
         });
-      
+
         return  this._http.post(this.HTTPS_URL + "/website/isLinkActive", json, {headers: this.headers, responseType: 'text'});
     }
 
@@ -57,13 +58,22 @@ export class SitesService {
           taskId: modelTaskId,
           lastAdvertise: modelLastAdvertise
         });
-    
+
         return  this._http.post(this.HTTPS_URL + "/website/updateTask", json, {headers: this.headers}).map(res => {
           console.log("update result->", res);
         });
       }
 
-    getGClid() {    
+    getGClid() {
         return this._http.get(this.HTTPS_URL + "/gclid/getGClid", {responseType: 'text'})
-      }
+    }
+
+    reGetGclid(gclidList: GclidCheckModel[], gclidTime: Date) {
+        var json = JSON.stringify({
+            gclidArray: gclidList,
+            time: gclidTime.getTime()
+        });
+
+        return  this._http.post(this.HTTPS_URL + "/gclid/reGetGclid", json, {headers: this.headers, responseType: 'text'}).map(res => res);
+    }
 }
