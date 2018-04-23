@@ -16,7 +16,7 @@
                     <button mat-raised-button color="primary" (click)="apply()">Apply</button>
                     <button mat-raised-button color="accent" disabled="{{!isReadyToStart}}" (click)="start()">Start</button>
                     <i class="fa fa-spinner loader" aria-hidden="true" [hidden]='!showLoader'></i>
-                    <i class="fa fa-exclamation-triangle loaderError" aria-hidden="true" [hidden]='!showLoaderError'></i>                   
+                    <i class="fa fa-exclamation-triangle loaderError" aria-hidden="true" [hidden]='!showLoaderError'></i>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <button mat-raised-button color="primary" (click)="clear()">Clear</button>               
+                <button mat-raised-button color="primary" (click)="clear()">Clear</button>
             </div>
         </div>
     </div>
@@ -70,6 +70,9 @@
         </mat-slide-toggle>
         <mat-slide-toggle class="example-margin" [checked]="useProxyFlag" (change)="onUseProxy($event)">
             Use Proxy
+        </mat-slide-toggle>
+        <mat-slide-toggle class="example-margin" [checked]="useUrlsFlag" (change)="onUseUrls($event)">
+            Use Secondary Urls
         </mat-slide-toggle>
     </div>
     <div class="col-md-3">
@@ -136,7 +139,7 @@
                                 </div>
                             </div>
                         </div>
-                    
+
                         <div class="col-sm-6 areaPadding">
                             <div class="card mb-3">
                                 <div class="card-header">
@@ -146,7 +149,7 @@
                                 </div>
                                 <div class="card-body resultArea">
                                     <p #finishSiteUrlsHtml [innerHTML]="finishSiteUrls"></p>
-                                    <p #finishAdvertiseHtml [innerHTML]="finishAdvertiseUrls"></p>  
+                                    <p #finishAdvertiseHtml [innerHTML]="finishAdvertiseUrls"></p>
                                 </div>
                             </div>
                         </div>

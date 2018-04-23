@@ -81,7 +81,15 @@ export class SitesService {
         var json = JSON.stringify({
             flag: useProxy
         });
-        
+
         return this._http.post(this.HTTPS_URL + "/website/setUseProxy", json, { headers: this.headers, responseType: 'text' }).map(res => res);
+    }
+
+    isUseSecondaryUrls(useUrls: string) {
+        var json = JSON.stringify({
+            flag: useUrls
+        });
+
+        return this._http.post(this.HTTPS_URL + "/website/setSecondaryUrl", json, { headers: this.headers, responseType: 'text' }).map(res => res);
     }
 }

@@ -61,6 +61,7 @@ export class SeoSiteComponent implements OnInit {
 
   autoCloseAdvertiseFlag: boolean = true;
   useProxyFlag: boolean = false;
+  useUrlsFlag: boolean = false;
 
   constructor(private service: SitesService, private sharedService: SharedService) {
     this.taskCtrl = new FormControl();
@@ -357,6 +358,20 @@ export class SeoSiteComponent implements OnInit {
       () => console.log("request completed")
     );
   }
+
+  onUseUrls(event) {
+      let useUrls: string = event.checked ? "" : "no";
+      console.log('event', useUrls)
+      this.service.isUseSecondaryUrls(useUrls).subscribe(
+          data => {
+              console.log("isUseSecondaryUrls -> ", data);
+          },
+          // error => alert(error),
+          () => console.log("request completed")
+      );
+  }
+
+
 
   nextStepWithUrls() {
     this.startHtmlString = '';
