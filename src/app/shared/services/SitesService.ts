@@ -27,11 +27,20 @@ export class SitesService {
         }
     }
 
-    getSiteUrls(url: string): Observable<String[]> {
+    getSiteUrls(url: string, id: string): Observable<String[]> {
         var json = JSON.stringify({
-            websiteUrl: url
+            mainUrl: url,
+            taskId: id
         });
-        return  this._http.post<String[]>(this.HTTPS_URL + "/website/getListSiteUrls", url)
+        return  this._http.post<String[]>(this.HTTPS_URL + "/website/getListSiteUrls", json, {headers: this.headers})        
+    }
+
+    decodeUrl(decodeUrl: string) {
+        var json = JSON.stringify({
+            mainUrl: decodeUrl
+        });
+
+        return this._http.post(this.HTTPS_URL + "/website/decodeUrl", json, { headers: this.headers, responseType: 'text' }).map(res => res);
     }
 
     advertiseListForSiteShow(modelTaskId: string, countAdvertise: string, countMove: string, countUrls: string): Observable<TransferModel> {

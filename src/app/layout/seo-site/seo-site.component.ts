@@ -145,7 +145,7 @@ export class SeoSiteComponent implements OnInit {
   apply() {
     this.showLoader = true;
     this.showLoaderError = false;
-    this.service.getSiteUrls(this.mainUrl).subscribe(
+    this.service.getSiteUrls(this.mainUrl, this.selectedTaskId).subscribe(
       data => {
         console.log("getSiteUrls -> ", data);
         this.mainUrlsDatasource = data;
