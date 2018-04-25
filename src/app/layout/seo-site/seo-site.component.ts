@@ -145,7 +145,11 @@ export class SeoSiteComponent implements OnInit {
   apply() {
     this.showLoader = true;
     this.showLoaderError = false;
-    this.service.getSiteUrls(this.mainUrl, this.selectedTaskId).subscribe(
+    let option = {
+      useProxy: this.useProxyFlag,
+      useUrls: this.useUrlsFlag
+    }
+    this.service.getSiteUrls(this.mainUrl, this.selectedTaskId, option).subscribe(
       data => {
         console.log("getSiteUrls -> ", data);
         this.mainUrlsDatasource = data;
@@ -348,27 +352,13 @@ export class SeoSiteComponent implements OnInit {
   }
 
   onUseProxy(event) {
-    let useProxy: string = event.checked ? "" : "no";
-    console.log('event', useProxy)
-    this.service.isUseProxy(useProxy).subscribe(
-      data => {
-        console.log("isUseProxy -> ", data);
-      },
-      // error => alert(error),
-      () => console.log("request completed")
-    );
+    console.log('event', event.checked)
+    this.useProxyFlag = event.checked;
   }
 
   onUseUrls(event) {
-      let useUrls: string = event.checked ? "" : "no";
-      console.log('event', useUrls)
-      this.service.isUseSecondaryUrls(useUrls).subscribe(
-          data => {
-              console.log("isUseSecondaryUrls -> ", data);
-          },
-          // error => alert(error),
-          () => console.log("request completed")
-      );
+    console.log('event', event.checked)
+    this.useUrlsFlag = event.checked;
   }
 
 
@@ -429,7 +419,11 @@ export class SeoSiteComponent implements OnInit {
   addToFinalGrid(element) {
     this.sitesLeft -= 1;
     this.showLoader = true;
-    this.service.isLinkActive(element).subscribe(result => {
+    let option = {
+      useProxy: this.useProxyFlag,
+      useUrls: this.useUrlsFlag
+    }
+    this.service.isLinkActive(element, option).subscribe(result => {
       this.showLoader = false;
       this.prepearedFinalList.push(element);
     })

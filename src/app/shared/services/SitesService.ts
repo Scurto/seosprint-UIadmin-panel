@@ -27,10 +27,12 @@ export class SitesService {
         }
     }
 
-    getSiteUrls(url: string, id: string): Observable<String[]> {
+    getSiteUrls(url: string, id: string, option): Observable<String[]> {
         var json = JSON.stringify({
             mainUrl: url,
-            taskId: id
+            taskId: id,
+            useProxy: option.useProxy,
+            useSecondaryUrls: option.useUrls
         });
         return  this._http.post<String[]>(this.HTTPS_URL + "/website/getListSiteUrls", json, {headers: this.headers})        
     }
@@ -54,9 +56,11 @@ export class SitesService {
         return this._http.post<TransferModel>(this.HTTPS_URL + "/website/advertiseListForSiteShow", json, {headers: this.headers});
     }
 
-    isLinkActive(url: string) {
+    isLinkActive(url: string, option) {
         var json = JSON.stringify({
-            mainUrl: url
+            mainUrl: url,
+            useProxy: option.useProxy,
+            useSecondaryUrls: option.useUrls
         });
 
         return  this._http.post(this.HTTPS_URL + "/website/isLinkActive", json, {headers: this.headers, responseType: 'text'});
