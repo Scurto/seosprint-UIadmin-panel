@@ -30,6 +30,7 @@ export class ParsePageComponent implements OnInit {
     decode() {
         this.service.decodeUrl(this.decodeUrl).subscribe(data => {
             this.secondaryUrls.push(data);
+            this.decodeUrl = '';
         });
     }
 }
