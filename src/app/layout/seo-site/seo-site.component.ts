@@ -255,8 +255,8 @@ export class SeoSiteComponent implements OnInit {
             checkModel.time = new Date();
             gclidList.push(checkModel)
 
-            console.log('resilt gclid', result)
-            advertiseText = advertiseText + strategyModel.prepearedModel.transferReklamaModel[0].gclidLine + result + '<br>';
+            console.log('resilt gclid', result)            
+            advertiseText = advertiseText + strategyModel.prepearedModel.transferReklamaModel[0].gclidLine + '<span id=' + checkModel.id + '>' + result + '</span>' + '<br>';
             strategyModel.finishAdvertiseHtml.nativeElement.innerHTML = advertiseText;
           });
           await delay(primaryAdveriseDelay);
@@ -281,11 +281,11 @@ export class SeoSiteComponent implements OnInit {
       strategyModel.endIcon.nativeElement.style.color = 'forestgreen'; // change icon color
       strategyModel.service.updateTask(strategyModel.selectedTaskId, strategyModel.prepearedModel.transferReklamaKeys).toPromise().then(result => {
         console.log('task completed');
-      });
-
-      for (let i = 0; i < gclidList.length; i++) {
+      });      
+      
+      for (let i = 0; i < gclidList.length; i++) {        
         if (gclidList[i].gclidLink == null || gclidList[i].gclidLink == '') {
-          strategyModel.service.reGetGclid(gclidList, gclidList[i].time).toPromise().then(result => {
+          strategyModel.service.reGetGclid(gclidList, gclidList[i].time).toPromise().then(result => {            
             document.getElementById(gclidList[i].id).innerText = result
           });
         }
