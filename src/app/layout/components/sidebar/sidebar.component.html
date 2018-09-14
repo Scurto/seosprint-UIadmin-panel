@@ -9,6 +9,10 @@
             <i class="fa fa-desktop" aria-hidden="true"></i>&nbsp;{{ 'SeoSite' | translate }}
         </a>
 
+        <a [routerLink]="['/seostatistics-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-bar-chart-o" aria-hidden="true"></i>&nbsp;{{ 'SeoStatistics' | translate }}
+        </a>
+
         <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
         </a>

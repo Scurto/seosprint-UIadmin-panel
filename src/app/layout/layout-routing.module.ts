@@ -18,7 +18,8 @@ const routes: Routes = [
             { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
             { path: 'parse-page', loadChildren: './parse-page/parse-page.module#ParsePageModule' },
             { path: 'youtube-page', loadChildren: './seo-youtube/seo-youtube.module#SeoYoutubeModule' },
-            { path: 'seosite-page', loadChildren: './seo-site/seo-site.module#SeoSiteModule' }
+            { path: 'seosite-page', loadChildren: './seo-site/seo-site.module#SeoSiteModule' },
+            { path: 'seostatistics-page', loadChildren: './seo-statistics/statistics-page.module#StatisticsPageModule' }
         ]
     }
 ];
