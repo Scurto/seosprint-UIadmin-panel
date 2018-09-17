@@ -20,120 +20,138 @@ export class StatisticsPageComponent implements OnInit {
         '2009',
         '2010',
         '2011',
-        '2012'
+        '2012',
+        '2013',
+        '2014',
+        '2015',
+        '2016',
+        '2017',
+        '2018',
+        '2019',
+        '2020'
     ];
     public barChartType: string = 'bar';
     public barChartLegend: boolean = true;
 
     public barChartData: any[] = [
-        { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-        { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
+        { data: [1, 2, 3, 4, 4, 2, 7, 5, 9, 3, 2, 6], label: 'Series A' }
+        // { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
     ];
+
+    // CHART COLOR.
+  colors = [
+    { // 1st Year.
+      backgroundColor: 'rgba(77,83,96,0.2)'
+    },
+    { // 2nd Year.
+      backgroundColor: 'rgba(30, 169, 224, 0.8)'
+    }
+  ]
 
     // Doughnut
-    public doughnutChartLabels: string[] = [
-        'Download Sales',
-        'In-Store Sales',
-        'Mail-Order Sales'
-    ];
-    public doughnutChartData: number[] = [350, 450, 100];
-    public doughnutChartType: string = 'doughnut';
+    // public doughnutChartLabels: string[] = [
+    //     'Download Sales',
+    //     'In-Store Sales',
+    //     'Mail-Order Sales'
+    // ];
+    // public doughnutChartData: number[] = [350, 450, 100];
+    // public doughnutChartType: string = 'doughnut';
 
-    // Radar
-    public radarChartLabels: string[] = [
-        'Eating',
-        'Drinking',
-        'Sleeping',
-        'Designing',
-        'Coding',
-        'Cycling',
-        'Running'
-    ];
-    public radarChartData: any = [
-        { data: [65, 59, 90, 81, 56, 55, 40], label: 'Series A' },
-        { data: [28, 48, 40, 19, 96, 27, 100], label: 'Series B' }
-    ];
-    public radarChartType: string = 'radar';
+    // // Radar
+    // public radarChartLabels: string[] = [
+    //     'Eating',
+    //     'Drinking',
+    //     'Sleeping',
+    //     'Designing',
+    //     'Coding',
+    //     'Cycling',
+    //     'Running'
+    // ];
+    // public radarChartData: any = [
+    //     { data: [65, 59, 90, 81, 56, 55, 40], label: 'Series A' },
+    //     { data: [28, 48, 40, 19, 96, 27, 100], label: 'Series B' }
+    // ];
+    // public radarChartType: string = 'radar';
 
-    // Pie
-    public pieChartLabels: string[] = [
-        'Download Sales',
-        'In-Store Sales',
-        'Mail Sales'
-    ];
-    public pieChartData: number[] = [300, 500, 100];
-    public pieChartType: string = 'pie';
+    // // Pie
+    // public pieChartLabels: string[] = [
+    //     'Download Sales',
+    //     'In-Store Sales',
+    //     'Mail Sales'
+    // ];
+    // public pieChartData: number[] = [300, 500, 100];
+    // public pieChartType: string = 'pie';
 
-    // PolarArea
-    public polarAreaChartLabels: string[] = [
-        'Download Sales',
-        'In-Store Sales',
-        'Mail Sales',
-        'Telesales',
-        'Corporate Sales'
-    ];
-    public polarAreaChartData: number[] = [300, 500, 100, 40, 120];
-    public polarAreaLegend: boolean = true;
+    // // PolarArea
+    // public polarAreaChartLabels: string[] = [
+    //     'Download Sales',
+    //     'In-Store Sales',
+    //     'Mail Sales',
+    //     'Telesales',
+    //     'Corporate Sales'
+    // ];
+    // public polarAreaChartData: number[] = [300, 500, 100, 40, 120];
+    // public polarAreaLegend: boolean = true;
 
-    public polarAreaChartType: string = 'polarArea';
+    // public polarAreaChartType: string = 'polarArea';
 
-    // lineChart
-    public lineChartData: Array<any> = [
-        { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-        { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
-        { data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C' }
-    ];
-    public lineChartLabels: Array<any> = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July'
-    ];
-    public lineChartOptions: any = {
-        responsive: true
-    };
-    public lineChartColors: Array<any> = [
-        {
-            // grey
-            backgroundColor: 'rgba(148,159,177,0.2)',
-            borderColor: 'rgba(148,159,177,1)',
-            pointBackgroundColor: 'rgba(148,159,177,1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-        },
-        {
-            // dark grey
-            backgroundColor: 'rgba(77,83,96,0.2)',
-            borderColor: 'rgba(77,83,96,1)',
-            pointBackgroundColor: 'rgba(77,83,96,1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(77,83,96,1)'
-        },
-        {
-            // grey
-            backgroundColor: 'rgba(148,159,177,0.2)',
-            borderColor: 'rgba(148,159,177,1)',
-            pointBackgroundColor: 'rgba(148,159,177,1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-        }
-    ];
-    public lineChartLegend: boolean = true;
-    public lineChartType: string = 'line';
+    // // lineChart
+    // public lineChartData: Array<any> = [
+    //     { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
+    //     { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
+    //     { data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C' }
+    // ];
+    // public lineChartLabels: Array<any> = [
+    //     'January',
+    //     'February',
+    //     'March',
+    //     'April',
+    //     'May',
+    //     'June',
+    //     'July'
+    // ];
+    // public lineChartOptions: any = {
+    //     responsive: true
+    // };
+    // public lineChartColors: Array<any> = [
+    //     {
+    //         // grey
+    //         backgroundColor: 'rgba(148,159,177,0.2)',
+    //         borderColor: 'rgba(148,159,177,1)',
+    //         pointBackgroundColor: 'rgba(148,159,177,1)',
+    //         pointBorderColor: '#fff',
+    //         pointHoverBackgroundColor: '#fff',
+    //         pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    //     },
+    //     {
+    //         // dark grey
+    //         backgroundColor: 'rgba(77,83,96,0.2)',
+    //         borderColor: 'rgba(77,83,96,1)',
+    //         pointBackgroundColor: 'rgba(77,83,96,1)',
+    //         pointBorderColor: '#fff',
+    //         pointHoverBackgroundColor: '#fff',
+    //         pointHoverBorderColor: 'rgba(77,83,96,1)'
+    //     },
+    //     {
+    //         // grey
+    //         backgroundColor: 'rgba(148,159,177,0.2)',
+    //         borderColor: 'rgba(148,159,177,1)',
+    //         pointBackgroundColor: 'rgba(148,159,177,1)',
+    //         pointBorderColor: '#fff',
+    //         pointHoverBackgroundColor: '#fff',
+    //         pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    //     }
+    // ];
+    // public lineChartLegend: boolean = true;
+    // public lineChartType: string = 'line';
 
     // events
     public chartClicked(e: any): void {
-        // console.log(e);
+        console.log('chartClicked',e);
     }
 
     public chartHovered(e: any): void {
-        // console.log(e);
+        console.log('chartHovered',e);
     }
 
     public randomize(): void {
@@ -162,3 +180,5 @@ export class StatisticsPageComponent implements OnInit {
 
     ngOnInit() {}
 }
+
+// http://blogs.kansiris.org/2018/04/how-to-create-bar-chart-in-angular-4.html
