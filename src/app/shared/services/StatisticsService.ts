@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams, HttpRequest, HttpHandler, HttpEven
 import { Injectable } from "@angular/core";
 import { SharedService } from "./SharedService";
 import { Observable } from "rxjs/Observable";
+import { WebsiteModel } from "../WebsiteModel";
 
 @Injectable()
 export class StatisticsService {
@@ -14,14 +15,14 @@ export class StatisticsService {
     HTTPS_URL: string = 'https://localhost:8443';
 //   HTTPS_URL: string = 'http://localhost:8080';
 
-advertiseListForSiteShow(modelTaskId: string, countAdvertise: string, countMove: string, countUrls: string): Observable<String[]> {
-    let json = JSON.stringify({
-    //   taskId: modelTaskId,
-    //   countOfAdvertise: countAdvertise,
-    //   countOfMove: countMove,
-    //   countOfUrls: countUrls
-    });
+    advertiseListForSiteShow(strategy: string): Observable<WebsiteModel[]> {
+        let json = JSON.stringify({
+            topStrategy: strategy
+        });
 
-    return this._http.post<String[]>(this.HTTPS_URL + "/statistics/listWebsites", json, {headers: this.headers});
+        return this._http.post<WebsiteModel[]>(this.HTTPS_URL + "/statistics/listWebsites", json, {headers: this.headers});
+    }
+
+    
 }
-}
+
